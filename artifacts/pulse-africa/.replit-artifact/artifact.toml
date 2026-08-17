@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Pulse Africa"
+description = "Pulse Africa est une plateforme média africaine premium avec des actualités, vidéos, émissions et streaming live. Elle inclut un espace utilisateur (profil, notifications, interactions) et Pulse Africa Studio — un dashboard d'administration complet pour la gestion des contenus, utilisateurs, modération, analytics et monétisation. Design Dark Premium avec données de démo réalistes."
+version = "1.0.0"
+id = "artifacts/pulse-africa"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23245
+
+[services.development]
+run = "pnpm --filter @workspace/pulse-africa run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/pulse-africa", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/pulse-africa/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23245"
+BASE_PATH = "/"
