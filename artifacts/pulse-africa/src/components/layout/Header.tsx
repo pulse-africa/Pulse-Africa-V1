@@ -3,10 +3,13 @@ import { Link, useLocation } from 'wouter';
 import { Search, Bell, Menu, X, User } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
+import { usePulse } from '@/state/PulseProvider';
 
 export default function Header() {
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { notifications, markNotificationRead, markAllNotificationsRead } = usePulse();
+  const unreadCount = notifications.filter((notification) => !notification.read).length;
 
   const navLinks = [
     { label: 'Accueil', path: '/' },
@@ -59,32 +62,39 @@ export default function Header() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="relative text-muted-foreground hover:text-foreground">
                 <Bell size={20} />
-                <span className="absolute top-2 right-2.5 h-2 w-2 bg-primary rounded-full border border-background"></span>
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 min-w-4 h-4 px-1 bg-primary text-[10px] text-white rounded-full border border-background flex items-center justify-center">
+                    {unreadCount}
+                  </span>
+                )}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-80">
               <DropdownMenuLabel>Notifications</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <div className="flex flex-col gap-2 p-2">
-                <div className="flex gap-3 items-start p-2 rounded hover:bg-muted/50 cursor-pointer transition-colors">
-                  <div className="h-2 w-2 mt-1.5 bg-primary rounded-full shrink-0" />
-                  <div className="flex flex-col gap-1">
-                    <span className="text-sm font-medium">Le Grand Journal est en direct</span>
-                    <span className="text-xs text-muted-foreground">Il y a 5 min</span>
-                  </div>
-                </div>
-                <div className="flex gap-3 items-start p-2 rounded hover:bg-muted/50 cursor-pointer transition-colors">
-                  <div className="h-2 w-2 mt-1.5 bg-transparent rounded-full shrink-0" />
-                  <div className="flex flex-col gap-1">
-                    <span className="text-sm">Nouvel article recommandé pour vous</span>
-                    <span className="text-xs text-muted-foreground">Il y a 1 heure</span>
-                  </div>
-                </div>
+                {notifications.slice(0, 3).map((notification) => (
+                  <Link
+                    key={notification.id}
+                    href={notification.href || '/notifications'}
+                    onClick={() => markNotificationRead(notification.id)}
+                    className={`flex gap-3 items-start p-2 rounded hover:bg-muted/50 transition-colors ${notification.read ? 'opacity-70' : ''}`}
+                  >
+                    <div className={`h-2 w-2 mt-1.5 rounded-full shrink-0 ${notification.read ? 'bg-transparent' : 'bg-primary'}`} />
+                    <div className="flex flex-col gap-1">
+                      <span className="text-sm font-medium">{notification.title}</span>
+                      <span className="text-xs text-muted-foreground">{notification.time}</span>
+                    </div>
+                  </Link>
+                ))}
               </div>
               <DropdownMenuSeparator />
-              <Link href="/notifications" className="block text-center text-xs text-primary p-2 hover:underline">
-                Voir tout
-              </Link>
+              <div className="flex items-center justify-between px-2">
+                <Link href="/notifications" className="text-xs text-primary p-2 hover:underline">Voir tout</Link>
+                <button onClick={markAllNotificationsRead} className="text-xs text-muted-foreground p-2 hover:text-foreground">
+                  Tout lire
+                </button>
+              </div>
             </DropdownMenuContent>
           </DropdownMenu>
 

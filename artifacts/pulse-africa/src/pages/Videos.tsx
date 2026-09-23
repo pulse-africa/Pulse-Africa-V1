@@ -1,9 +1,21 @@
 import React from 'react';
-import { MOCK_VIDEOS } from '@/data/mock';
+import { useListVideos } from '@workspace/api-client-react';
 import { Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import SafeImage from '@/components/content/SafeImage';
+import ContentInteractions from '@/components/content/ContentInteractions';
 
 export default function Videos() {
+  const videosQuery = useListVideos();
+  const videos = videosQuery.data ?? [];
+
+  if (videosQuery.isLoading) {
+    return <div className="container mx-auto px-4 py-16 text-center text-muted-foreground">Chargement des vidéos...</div>;
+  }
+  if (videosQuery.isError) {
+    return <div className="container mx-auto px-4 py-16 text-center text-destructive">Les vidéos sont indisponibles pour le moment.</div>;
+  }
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-10">
@@ -21,10 +33,10 @@ export default function Videos() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {MOCK_VIDEOS.map(video => (
+        {videos.map(video => (
           <div key={video.id} className="group cursor-pointer flex flex-col bg-card border border-border rounded-lg overflow-hidden">
             <div className="relative aspect-video bg-muted overflow-hidden">
-              <img 
+              <SafeImage 
                 src={video.thumbnailUrl} 
                 alt={video.title} 
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
@@ -47,9 +59,9 @@ export default function Videos() {
               <p className="text-xs text-muted-foreground line-clamp-2 mb-4 flex-1">
                 {video.description}
               </p>
-              <div className="flex items-center justify-between text-xs text-muted-foreground pt-4 border-t border-border/50">
-                <span>{video.author}</span>
-                <span>{(video.views / 1000).toFixed(1)}k vues</span>
+              <div className="flex flex-wrap items-center justify-between gap-2 pt-4 border-t border-border/50">
+                <span className="text-xs text-muted-foreground">{video.author} · {(video.views / 1000).toFixed(1)}k vues</span>
+                <ContentInteractions contentId={`video:${video.id}`} title={video.title} likesCount={Math.floor(video.views / 1000)} commentsCount={Math.floor(video.views / 10000)} compact />
               </div>
             </div>
           </div>

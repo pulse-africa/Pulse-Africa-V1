@@ -3,6 +3,7 @@ import { MOCK_ARTICLES } from '@/data/mock';
 import { Button } from '@/components/ui/button';
 import { Plus, MoreHorizontal, Edit, Trash2, Eye } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import SafeImage from '@/components/content/SafeImage';
 
 export default function StudioArticles() {
   return (
@@ -38,7 +39,7 @@ export default function StudioArticles() {
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
-                      <img src={article.author.avatar} alt="" className="w-6 h-6 rounded-full" />
+                       <SafeImage src={article.author.avatar} alt="" className="w-6 h-6 rounded-full" />
                       {article.author.name}
                     </div>
                   </td>

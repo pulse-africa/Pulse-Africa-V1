@@ -21,7 +21,17 @@ import StudioLayout from '@/pages/studio/StudioLayout';
 import StudioDashboard from '@/pages/studio/StudioDashboard';
 import StudioArticles from '@/pages/studio/StudioArticles';
 import StudioVideos from '@/pages/studio/StudioVideos';
+import StudioLive from '@/pages/studio/StudioLive';
+import StudioEmissions from '@/pages/studio/StudioEmissions';
+import StudioUtilisateurs from '@/pages/studio/StudioUtilisateurs';
+import StudioCommentaires from '@/pages/studio/StudioCommentaires';
+import StudioModeration from '@/pages/studio/StudioModeration';
+import StudioAnalytics from '@/pages/studio/StudioAnalytics';
+import StudioMonetisation from '@/pages/studio/StudioMonetisation';
+import StudioParametres from '@/pages/studio/StudioParametres';
+import Notifications from '@/pages/Notifications';
 import NotFound from '@/pages/not-found';
+import { PulseProvider } from '@/state/PulseProvider';
 
 const queryClient = new QueryClient();
 
@@ -36,7 +46,14 @@ function Router() {
               <Route path="/" component={StudioDashboard} />
               <Route path="/articles" component={StudioArticles} />
               <Route path="/videos" component={StudioVideos} />
-              {/* Other studio routes would go here */}
+              <Route path="/live" component={StudioLive} />
+              <Route path="/emissions" component={StudioEmissions} />
+              <Route path="/utilisateurs" component={StudioUtilisateurs} />
+              <Route path="/commentaires" component={StudioCommentaires} />
+              <Route path="/moderation" component={StudioModeration} />
+              <Route path="/analytics" component={StudioAnalytics} />
+              <Route path="/monetisation" component={StudioMonetisation} />
+              <Route path="/parametres" component={StudioParametres} />
               <Route component={NotFound} />
             </Switch>
           </StudioLayout>
@@ -46,7 +63,7 @@ function Router() {
         <Route path="/connexion" component={Connexion} />
 
         {/* Public Routes with Main Layout */}
-        <Route path="/" nest={false}>
+        <Route>
           <MainLayout>
             <Switch>
               <Route path="/" component={Home} />
@@ -58,6 +75,7 @@ function Router() {
               <Route path="/tendances" component={Tendances} />
               <Route path="/recherche" component={Recherche} />
               <Route path="/profil" component={Profil} />
+              <Route path="/notifications" component={Notifications} />
               <Route component={NotFound} />
             </Switch>
           </MainLayout>
@@ -74,14 +92,16 @@ function RoutedErrorBoundary({ children }: { children: ReactNode }) {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
-          <Router />
-        </WouterRouter>
-        <Toaster />
-      </TooltipProvider>
-    </QueryClientProvider>
+    <PulseProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+            <Router />
+          </WouterRouter>
+          <Toaster />
+        </TooltipProvider>
+      </QueryClientProvider>
+    </PulseProvider>
   );
 }
 

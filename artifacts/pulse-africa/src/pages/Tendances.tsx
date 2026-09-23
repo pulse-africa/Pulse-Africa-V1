@@ -1,10 +1,18 @@
 import React from 'react';
-import { MOCK_TRENDING_HASHTAGS, MOCK_ARTICLES } from '@/data/mock';
+import { useListArticles } from '@workspace/api-client-react';
 import { Link } from 'wouter';
 import { TrendingUp, Activity, Hash } from 'lucide-react';
+import SafeImage from '@/components/content/SafeImage';
 
 export default function Tendances() {
-  const trendingArticles = MOCK_ARTICLES.filter(a => a.isTrending);
+  const articlesQuery = useListArticles();
+  const articles = articlesQuery.data ?? [];
+  const trendingArticles = articles.filter(a => a.isTrending);
+  const trendingTopics = articles
+    .reduce<Record<string, number>>((counts, article) => {
+      counts[article.category] = (counts[article.category] ?? 0) + article.commentsCount;
+      return counts;
+    }, {});
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -24,8 +32,8 @@ export default function Tendances() {
             </h2>
             
             <div className="space-y-4">
-              {MOCK_TRENDING_HASHTAGS.sort((a,b) => b.posts - a.posts).map((tag, idx) => (
-                <div key={tag.tag} className="group flex items-center justify-between cursor-pointer">
+              {Object.entries(trendingTopics).sort(([, a], [, b]) => b - a).map(([topic, mentions], idx) => (
+                <div key={topic} className="group flex items-center justify-between cursor-pointer">
                   <div className="flex items-center gap-4">
                     <span className="text-2xl font-black text-muted-foreground/30 group-hover:text-primary/40 transition-colors w-6">
                       {idx + 1}
@@ -33,9 +41,9 @@ export default function Tendances() {
                     <div>
                       <div className="font-bold text-foreground group-hover:text-primary transition-colors flex items-center gap-1">
                         <Hash size={14} className="text-muted-foreground" />
-                        {tag.tag}
+                        {topic}
                       </div>
-                      <div className="text-xs text-muted-foreground mt-0.5">{(tag.posts / 1000).toFixed(1)}k mentions</div>
+                      <div className="text-xs text-muted-foreground mt-0.5">{mentions.toLocaleString()} commentaires</div>
                     </div>
                   </div>
                   <div className="h-6 w-16 bg-muted/50 rounded-sm relative overflow-hidden">
@@ -55,11 +63,13 @@ export default function Tendances() {
             Articles les plus discutés
           </h2>
           
+          {articlesQuery.isLoading && <div className="py-12 text-center text-muted-foreground">Chargement des tendances...</div>}
+          {articlesQuery.isError && <div className="py-12 text-center text-destructive">Les tendances sont indisponibles pour le moment.</div>}
           <div className="space-y-6">
             {trendingArticles.map(article => (
               <Link key={article.id} href={`/actualites/${article.slug}`} className="group flex flex-col sm:flex-row gap-6 bg-card border border-border rounded-xl p-4 hover:border-primary/50 transition-colors">
                 <div className="sm:w-48 aspect-video rounded-md overflow-hidden shrink-0">
-                  <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                   <SafeImage src={article.imageUrl} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 </div>
                 <div className="flex-1 flex flex-col justify-center">
                   <div className="flex gap-2 mb-2">

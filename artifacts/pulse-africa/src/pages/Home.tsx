@@ -1,14 +1,33 @@
 import React from 'react';
-import { MOCK_ARTICLES, MOCK_VIDEOS, MOCK_SHOWS, MOCK_TRENDING_HASHTAGS } from '@/data/mock';
+import { useListArticles, useListShows, useListVideos } from '@workspace/api-client-react';
 import { Link } from 'wouter';
 import { ChevronRight, Play } from 'lucide-react';
-import ArticleCard from '@/components/content/ArticleCard';
+import SafeImage from '@/components/content/SafeImage';
 
 export default function Home() {
-  const breakingNews = MOCK_ARTICLES.find(a => a.isBreaking) || MOCK_ARTICLES[0];
-  const topStories = MOCK_ARTICLES.filter(a => a.id !== breakingNews.id).slice(0, 4);
-  const featuredVideos = MOCK_VIDEOS.slice(0, 3);
-  const recommendedShows = MOCK_SHOWS.slice(0, 4);
+  const articlesQuery = useListArticles();
+  const videosQuery = useListVideos();
+  const showsQuery = useListShows();
+  const articles = articlesQuery.data ?? [];
+  const featuredVideos = (videosQuery.data ?? []).slice(0, 3);
+  const recommendedShows = (showsQuery.data ?? []).slice(0, 4);
+  const breakingNews = articles.find((article) => article.isBreaking) ?? articles[0];
+  const topStories = breakingNews ? articles.filter((article) => article.id !== breakingNews.id).slice(0, 4) : [];
+  const trendingTopics = articles
+    .reduce<Record<string, number>>((counts, article) => {
+      counts[article.category] = (counts[article.category] ?? 0) + article.views;
+      return counts;
+    }, {});
+
+  if (articlesQuery.isLoading || videosQuery.isLoading || showsQuery.isLoading) {
+    return <div className="container mx-auto px-4 py-16 text-center text-muted-foreground">Chargement de Pulse Africa...</div>;
+  }
+  if (articlesQuery.isError || videosQuery.isError || showsQuery.isError) {
+    return <div className="container mx-auto px-4 py-16 text-center text-destructive">Le contenu est momentanément indisponible.</div>;
+  }
+  if (!breakingNews) {
+    return <div className="container mx-auto px-4 py-16 text-center text-muted-foreground">Aucun contenu publié pour le moment.</div>;
+  }
 
   return (
     <div className="w-full">
@@ -16,7 +35,7 @@ export default function Home() {
       <div className="bg-primary text-primary-foreground text-xs font-bold py-2 px-4 overflow-hidden flex whitespace-nowrap">
         <div className="bg-background text-foreground px-2 py-0.5 rounded-sm mr-4 shrink-0 uppercase tracking-wider text-[10px]">Breaking News</div>
         <div className="animate-marquee inline-block">
-          {MOCK_ARTICLES.map(a => a.title).join(' • ')}
+          {articles.map(a => a.title).join(' • ')}
         </div>
       </div>
 
@@ -27,7 +46,7 @@ export default function Home() {
           <div className="lg:col-span-8 group cursor-pointer relative overflow-hidden rounded-lg">
             <Link href={`/actualites/${breakingNews.slug}`} className="block h-full">
               <div className="absolute inset-0">
-                <img 
+                   <SafeImage 
                   src={breakingNews.imageUrl} 
                   alt={breakingNews.title} 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -52,7 +71,7 @@ export default function Home() {
                 </p>
                 <div className="flex items-center gap-4 text-sm text-gray-400">
                   <div className="flex items-center gap-2">
-                    <img src={breakingNews.author.avatar} className="w-6 h-6 rounded-full" alt={breakingNews.author.name} />
+                     <SafeImage src={breakingNews.author.avatar} className="w-6 h-6 rounded-full" alt={breakingNews.author.name} />
                     <span>{breakingNews.author.name}</span>
                   </div>
                   <span>•</span>
@@ -87,7 +106,7 @@ export default function Home() {
                     </div>
                   </div>
                   <Link href={`/actualites/${article.slug}`} className="w-24 h-24 shrink-0 overflow-hidden rounded-md">
-                    <img 
+                    <SafeImage 
                       src={article.imageUrl} 
                       alt="" 
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -108,10 +127,10 @@ export default function Home() {
               <span className="text-primary">#</span> TENDANCES
             </h2>
             <div className="flex flex-wrap gap-3 w-full">
-              {MOCK_TRENDING_HASHTAGS.map(t => (
-                <Link key={t.tag} href={`/tendances?tag=${t.tag}`} className="bg-background border border-border px-4 py-1.5 rounded-full text-sm font-medium hover:border-primary hover:text-primary transition-colors flex items-center gap-2">
-                  #{t.tag}
-                  <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded-sm">{Math.floor(t.posts/1000)}k</span>
+              {Object.entries(trendingTopics).slice(0, 6).map(([topic, views]) => (
+                <Link key={topic} href={`/tendances?tag=${encodeURIComponent(topic)}`} className="bg-background border border-border px-4 py-1.5 rounded-full text-sm font-medium hover:border-primary hover:text-primary transition-colors flex items-center gap-2">
+                  #{topic}
+                  <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded-sm">{Math.floor(views / 1000)}k</span>
                 </Link>
               ))}
             </div>
@@ -132,7 +151,7 @@ export default function Home() {
           {featuredVideos.map(video => (
             <Link key={video.id} href={`/videos?id=${video.id}`} className="group block">
               <div className="relative aspect-video rounded-lg overflow-hidden mb-4 bg-muted">
-                <img src={video.thumbnailUrl} alt={video.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <SafeImage src={video.thumbnailUrl} alt={video.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors flex items-center justify-center">
                   <div className="w-12 h-12 rounded-full bg-primary/90 text-white flex items-center justify-center backdrop-blur shadow-lg group-hover:scale-110 transition-transform">
                     <Play fill="currentColor" size={20} className="ml-1" />
@@ -166,7 +185,7 @@ export default function Home() {
             {recommendedShows.map(show => (
               <Link key={show.id} href={`/emissions?id=${show.id}`} className="group block relative overflow-hidden rounded-xl border border-border bg-card">
                 <div className="aspect-[3/4] relative">
-                  <img src={show.coverUrl} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt={show.title} />
+                  <SafeImage src={show.coverUrl} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt={show.title} />
                   <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
                   
                   <div className="absolute bottom-0 w-full p-5">

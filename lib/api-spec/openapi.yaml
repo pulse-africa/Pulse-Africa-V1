@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: content
+    description: Public editorial content
 paths:
   /healthz:
     get:
@@ -24,6 +26,109 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /content/articles:
+    get:
+      operationId: listArticles
+      tags: [content]
+      summary: List published articles
+      responses:
+        "200":
+          description: Published articles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Article"
+  /content/articles/{slug}:
+    get:
+      operationId: getArticle
+      tags: [content]
+      summary: Get an article by slug
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Article
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+        "404":
+          description: Article not found
+  /content/videos:
+    get:
+      operationId: listVideos
+      tags: [content]
+      summary: List published videos
+      responses:
+        "200":
+          description: Published videos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Video"
+  /content/shows:
+    get:
+      operationId: listShows
+      tags: [content]
+      summary: List shows
+      responses:
+        "200":
+          description: Shows
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Show"
+  /content/comments:
+    get:
+      operationId: listComments
+      tags: [content]
+      summary: List comments for an article
+      parameters:
+        - name: articleId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Approved comments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Comment"
+    post:
+      operationId: createComment
+      tags: [content]
+      summary: Add a comment to an article
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCommentInput"
+      responses:
+        "201":
+          description: Created comment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+        "400":
+          description: Invalid comment
+        "404":
+          description: Article not found
 components:
   schemas:
     HealthStatus:
@@ -33,4 +138,116 @@ components:
           type: string
       required:
         - status
+    Author:
+      type: object
+      properties:
+        name:
+          type: string
+        avatar:
+          type: string
+      required: [name, avatar]
+    Article:
+      type: object
+      properties:
+        id:
+          type: string
+        slug:
+          type: string
+        title:
+          type: string
+        excerpt:
+          type: string
+        content:
+          type: [string, "null"]
+        category:
+          type: string
+        author:
+          $ref: "#/components/schemas/Author"
+        publishedAt:
+          type: string
+        readTime:
+          type: number
+        imageUrl:
+          type: string
+        isBreaking:
+          type: boolean
+        isTrending:
+          type: boolean
+        views:
+          type: number
+        likes:
+          type: number
+        commentsCount:
+          type: number
+      required: [id, slug, title, excerpt, category, author, publishedAt, readTime, imageUrl, isBreaking, isTrending, views, likes, commentsCount]
+    Video:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        duration:
+          type: string
+        views:
+          type: number
+        thumbnailUrl:
+          type: string
+        publishedAt:
+          type: string
+        author:
+          type: string
+      required: [id, title, description, category, duration, views, thumbnailUrl, publishedAt, author]
+    Show:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        host:
+          type: string
+        schedule:
+          type: string
+        nextEpisode:
+          type: string
+        coverUrl:
+          type: string
+        subscribers:
+          type: number
+        isLive:
+          type: boolean
+      required: [id, title, host, schedule, nextEpisode, coverUrl, subscribers, isLive]
+    Comment:
+      type: object
+      properties:
+        id:
+          type: string
+        articleId:
+          type: string
+        user:
+          type: string
+        avatar:
+          type: [string, "null"]
+        text:
+          type: string
+        time:
+          type: string
+      required: [id, articleId, user, avatar, text, time]
+    CreateCommentInput:
+      type: object
+      properties:
+        articleId:
+          type: string
+        user:
+          type: string
+        avatar:
+          type: [string, "null"]
+        text:
+          type: string
+      required: [articleId, user, text]
 

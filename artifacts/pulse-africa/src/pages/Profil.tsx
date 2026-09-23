@@ -2,12 +2,18 @@ import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Settings, Bookmark, Clock, MessageSquare } from 'lucide-react';
-import { MOCK_ARTICLES } from '@/data/mock';
+import { useListArticles } from '@workspace/api-client-react';
 import ArticleCard from '@/components/content/ArticleCard';
 import { Button } from '@/components/ui/button';
+import { usePulse } from '@/state/PulseProvider';
 
 export default function Profil() {
-  const savedArticles = MOCK_ARTICLES.slice(0, 3);
+  const { savedContent } = usePulse();
+  const articlesQuery = useListArticles();
+  const articles = articlesQuery.data ?? [];
+  const savedArticles = savedContent.length
+    ? articles.filter((article) => savedContent.includes(`article:${article.id}`))
+    : [];
   
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
@@ -66,11 +72,18 @@ export default function Profil() {
         </TabsList>
         
         <TabsContent value="saved" className="pt-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {savedArticles.map(article => (
-              <ArticleCard key={article.id} article={article} />
-            ))}
-          </div>
+          {articlesQuery.isLoading && <div className="py-12 text-center text-muted-foreground">Chargement de vos contenus...</div>}
+          {articlesQuery.isError && <div className="py-12 text-center text-destructive">Vos contenus sont indisponibles pour le moment.</div>}
+          {!articlesQuery.isLoading && !articlesQuery.isError && savedArticles.length === 0 && (
+            <div className="py-12 text-center text-muted-foreground">Aucun article enregistré pour le moment.</div>
+          )}
+          {savedArticles.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {savedArticles.map(article => (
+                <ArticleCard key={article.id} article={article} />
+              ))}
+            </div>
+          )}
         </TabsContent>
         
         <TabsContent value="history" className="pt-6">

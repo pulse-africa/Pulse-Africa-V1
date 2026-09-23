@@ -1,0 +1,1 @@
+- [Wouter layout routing](wouter-layout-routing.md) — keep shared public layouts on a catch-all route; an exact `/` wrapper makes secondary pages render blank.

@@ -1,0 +1,178 @@
+import { sql } from "drizzle-orm";
+import { db, articlesTable, commentsTable, showsTable, videosTable } from "@workspace/db";
+
+const articles = [
+  {
+    id: "1",
+    slug: "sommet-ua-addis-abeba-libre-circulation",
+    title: "Le sommet de l'UA à Addis-Abeba : accord historique sur la libre circulation",
+    excerpt: "Les dirigeants africains ont franchi une étape décisive ce mardi en signant un protocole visant à instaurer un passeport unique continental d'ici 2030.",
+    content: "<p>Dans ce qui est déjà qualifié de tournant majeur pour l'intégration continentale, les 54 chefs d'État et de gouvernement réunis à Addis-Abeba ont ratifié l'accord sur la libre circulation des personnes et des biens.</p><p>Ce traité ambitionne de démanteler les barrières douanières et migratoires qui freinent historiquement le commerce intra-africain.</p><h3>Des défis de mise en œuvre</h3><p>Un comité de transition de cinq ans a été mis en place pour accompagner les États les plus vulnérables économiquement.</p>",
+    category: "Politique",
+    authorName: "Amadou Diallo",
+    authorAvatar: "https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?w=100&auto=format&fit=crop&q=60",
+    publishedAt: new Date("2023-10-24T08:00:00Z"),
+    readTime: 6,
+    imageUrl: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=1200&auto=format&fit=crop&q=80",
+    isBreaking: true,
+    isTrending: false,
+    views: 45200,
+    likes: 1205,
+    commentsCount: 342,
+  },
+  {
+    id: "2",
+    slug: "nigeria-naira-chute-libre-reformes-tinubu",
+    title: "Nigeria : la Naira en chute libre face au dollar malgré les réformes Tinubu",
+    excerpt: "La monnaie nigériane a atteint un nouveau plus bas historique, remettant en question l'efficacité des politiques monétaires de la nouvelle administration.",
+    category: "Économie",
+    authorName: "Chioma Okafor",
+    authorAvatar: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=100&auto=format&fit=crop&q=60",
+    publishedAt: new Date("2023-10-23T14:30:00Z"),
+    readTime: 5,
+    imageUrl: "https://images.unsplash.com/photo-1613274640161-007e6b0ba6c3?w=1200&auto=format&fit=crop&q=80",
+    isBreaking: false,
+    isTrending: true,
+    views: 32100,
+    likes: 850,
+    commentsCount: 215,
+  },
+  {
+    id: "3",
+    slug: "can-2025-maroc-favorite",
+    title: "CAN 2025 : Le Maroc favori après sa victoire écrasante face à l'Égypte",
+    excerpt: "Les Lions de l'Atlas ont démontré leur suprématie lors du match de préparation avec un score sans appel de 3-0.",
+    category: "Sport",
+    authorName: "Youssef Bennis",
+    authorAvatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=60",
+    publishedAt: new Date("2023-10-24T09:15:00Z"),
+    readTime: 4,
+    imageUrl: "https://images.unsplash.com/photo-1518605368461-1ee7c5320746?w=1200&auto=format&fit=crop&q=80",
+    isBreaking: false,
+    isTrending: true,
+    views: 56000,
+    likes: 3400,
+    commentsCount: 521,
+  },
+  {
+    id: "4",
+    slug: "startup-africaines-10-licornes",
+    title: "Startups africaines : les 10 licornes émergentes qui bousculent la Silicon Valley",
+    excerpt: "De la fintech à l'agritech, panorama des entreprises technologiques africaines valorisées à plus d'un milliard de dollars.",
+    category: "Tech",
+    authorName: "Sarah Mensah",
+    authorAvatar: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?w=100&auto=format&fit=crop&q=60",
+    publishedAt: new Date("2023-10-22T11:00:00Z"),
+    readTime: 8,
+    imageUrl: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1200&auto=format&fit=crop&q=80",
+    isBreaking: false,
+    isTrending: false,
+    views: 18400,
+    likes: 920,
+    commentsCount: 145,
+  },
+  {
+    id: "5",
+    slug: "cote-ivoire-boom-cacao-biologique",
+    title: "Côte d'Ivoire : boom du cacao biologique sur les marchés européens",
+    excerpt: "Face aux nouvelles réglementations environnementales, les coopératives ivoiriennes s'adaptent et voient leurs exportations de cacao bio exploser.",
+    category: "Environnement",
+    authorName: "Kouassi Konan",
+    authorAvatar: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=100&auto=format&fit=crop&q=60",
+    publishedAt: new Date("2023-10-24T06:45:00Z"),
+    readTime: 5,
+    imageUrl: "https://images.unsplash.com/photo-1606500414406-81643c74ebfb?w=1200&auto=format&fit=crop&q=80",
+    isBreaking: false,
+    isTrending: false,
+    views: 12300,
+    likes: 450,
+    commentsCount: 89,
+  },
+  {
+    id: "6",
+    slug: "dakar-biennale-art-contemporain-2024",
+    title: "Dak'Art 2024 : L'avant-garde de l'art contemporain africain",
+    excerpt: "La Biennale de Dakar ouvre ses portes avec une sélection audacieuse d'artistes redéfinissant les récits post-coloniaux.",
+    category: "Culture",
+    authorName: "Fatou Diop",
+    authorAvatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&auto=format&fit=crop&q=60",
+    publishedAt: new Date("2023-10-21T10:20:00Z"),
+    readTime: 7,
+    imageUrl: "https://images.unsplash.com/photo-1543857778-c4a1a3e0b2eb?w=1200&auto=format&fit=crop&q=80",
+    isBreaking: false,
+    isTrending: false,
+    views: 15600,
+    likes: 1100,
+    commentsCount: 78,
+  },
+  {
+    id: "7",
+    slug: "rwanda-sante-drones-livraison",
+    title: "Rwanda : Les drones médicaux sauvent des milliers de vies",
+    excerpt: "Le programme de livraison de sang et de vaccins par drone s'étend à tout le pays, devenant un modèle mondial.",
+    category: "Santé",
+    authorName: "Jean-Paul Mugisha",
+    authorAvatar: "https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=100&auto=format&fit=crop&q=60",
+    publishedAt: new Date("2023-10-24T12:00:00Z"),
+    readTime: 4,
+    imageUrl: "https://images.unsplash.com/photo-1520121401995-928cd50d4e27?w=1200&auto=format&fit=crop&q=80",
+    isBreaking: false,
+    isTrending: false,
+    views: 22100,
+    likes: 1800,
+    commentsCount: 156,
+  },
+];
+
+const videos = [
+  ["v1", "Dans les coulisses du nouveau port de Lamu au Kenya", "Enquête exclusive sur le méga-projet d'infrastructure qui redessine la côte est-africaine.", "Économie", "24:15", 145000, "https://images.unsplash.com/photo-1558231464-67d7168d3744?w=800&auto=format&fit=crop&q=80", "Pulse Investigation"],
+  ["v2", "Amapiano : La déferlante musicale sud-africaine à la conquête du monde", "Comment ce genre né dans les townships de Pretoria est devenu un phénomène mondial.", "Culture", "18:40", 320000, "https://images.unsplash.com/photo-1493225457124-a1a2a5956093?w=800&auto=format&fit=crop&q=80", "Pulse Music"],
+  ["v3", "L'essor de la mobilité électrique à Nairobi", "Les startups kenyanes transforment les transports publics avec des motos et bus électriques.", "Tech", "12:05", 89000, "https://images.unsplash.com/photo-1549315488-82a1b1513ee6?w=800&auto=format&fit=crop&q=80", "Pulse Tech"],
+  ["v4", "Sommet sur le Climat : Les voix africaines exigent des actes", "Résumé des déclarations fortes des leaders africains face à la crise climatique.", "Environnement", "08:30", 210000, "https://images.unsplash.com/photo-1534088568595-a066f410cbda?w=800&auto=format&fit=crop&q=80", "Pulse Actu"],
+].map(([id, title, description, category, duration, views, thumbnailUrl, author], index) => ({
+  id: String(id),
+  title: String(title),
+  description: String(description),
+  category: String(category),
+  duration: String(duration),
+  views: Number(views),
+  thumbnailUrl: String(thumbnailUrl),
+  publishedAt: new Date(["2023-10-23", "2023-10-20", "2023-10-24", "2023-10-24"][index] + "T12:00:00Z"),
+  author: String(author),
+}));
+
+const shows = [
+  ["s1", "Le Débat Panafricain", "Alain Foka", "Tous les mardis à 20h00", "2023-10-31T20:00:00Z", "https://images.unsplash.com/photo-1587829741301-8c0ce720d6c1?w=800&auto=format&fit=crop&q=80", 1250000, false],
+  ["s2", "Africa Tech Review", "Rebecca Enonchong", "Jeudi, 18h30", "2023-10-26T18:30:00Z", "https://images.unsplash.com/photo-1531297122539-5692f692f089?w=800&auto=format&fit=crop&q=80", 450000, false],
+  ["s3", "Le Grand Journal d'Afrique", "Marie-Laure N'Goran", "Lundi au Vendredi, 19h00", "2023-10-24T19:00:00Z", "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=800&auto=format&fit=crop&q=80", 890000, true],
+  ["s4", "Génération Entreprendre", "Vusi Thembekwayo", "Dimanche, 11h00", "2023-10-29T11:00:00Z", "https://images.unsplash.com/photo-1556761175-5973dc0f32d7?w=800&auto=format&fit=crop&q=80", 620000, false],
+].map(([id, title, host, schedule, nextEpisode, coverUrl, subscribers, isLive]) => ({
+  id: String(id),
+  title: String(title),
+  host: String(host),
+  schedule: String(schedule),
+  nextEpisode: String(nextEpisode),
+  coverUrl: String(coverUrl),
+  subscribers: Number(subscribers),
+  isLive: Boolean(isLive),
+}));
+
+const comments = [
+  { id: "c1", articleId: "1", userName: "Aïcha N.", avatar: "https://i.pravatar.cc/150?u=aicha", text: "Une avancée importante pour les échanges entre nos pays. Il faudra suivre la mise en œuvre." },
+  { id: "c2", articleId: "1", userName: "Moussa K.", avatar: "https://i.pravatar.cc/150?u=moussa", text: "Le sujet mérite un vrai débat citoyen, au-delà des annonces officielles." },
+  { id: "c3", articleId: "1", userName: "Nadia T.", avatar: "https://i.pravatar.cc/150?u=nadia", text: "Merci pour cette analyse claire et documentée." },
+];
+
+export async function ensureContentSeeded(): Promise<void> {
+  const [{ count }] = await db.select({ count: sql<number>`count(*)` }).from(articlesTable);
+  if (Number(count) > 0) return;
+
+  await db.insert(articlesTable).values(articles);
+  await db.insert(videosTable).values(videos);
+  await db.insert(showsTable).values(shows);
+  await db.insert(commentsTable).values(comments.map((comment, index) => ({
+    ...comment,
+    status: "approved",
+    createdAt: new Date(Date.now() - (index + 2) * 60 * 60 * 1000),
+  })));
+}

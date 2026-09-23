@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { Search as SearchIcon } from 'lucide-react';
-import { MOCK_ARTICLES } from '@/data/mock';
+import { useListArticles } from '@workspace/api-client-react';
 import ArticleCard from '@/components/content/ArticleCard';
 
 export default function Recherche() {
   const [query, setQuery] = useState('');
+  const articlesQuery = useListArticles();
+  const articles = articlesQuery.data ?? [];
   
   const results = query.length > 2 
-    ? MOCK_ARTICLES.filter(a => a.title.toLowerCase().includes(query.toLowerCase()) || a.category.toLowerCase().includes(query.toLowerCase()))
+    ? articles.filter(a => a.title.toLowerCase().includes(query.toLowerCase()) || a.category.toLowerCase().includes(query.toLowerCase()))
     : [];
 
   return (
@@ -41,7 +43,8 @@ export default function Recherche() {
         )}
       </div>
 
-      {query.length > 2 && (
+      {articlesQuery.isError && <div className="max-w-5xl mx-auto text-center text-destructive">La recherche est indisponible pour le moment.</div>}
+      {query.length > 2 && !articlesQuery.isError && (
         <div className="max-w-5xl mx-auto">
           <h2 className="text-lg font-bold mb-6 border-b border-border pb-2">
             {results.length} résultat{results.length !== 1 ? 's' : ''} pour "{query}"

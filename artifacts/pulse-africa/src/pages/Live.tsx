@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { MOCK_SHOWS } from '@/data/mock';
 import { Play, Users, Calendar, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import SafeImage from '@/components/content/SafeImage';
 
 export default function Live() {
   const [messages, setMessages] = useState<{id:number, user:string, text:string}[]>([
@@ -37,7 +37,7 @@ export default function Live() {
           {/* Video Player Placeholder */}
           <div className="relative flex-1 bg-zinc-950 flex items-center justify-center border-b border-border lg:border-b-0 lg:border-r">
             {/* The Live Video Feed */}
-            <img 
+            <SafeImage 
               src="https://images.unsplash.com/photo-1577960613240-62dfeb479366?w=1600&auto=format&fit=crop&q=80" 
               alt="Live Studio" 
               className="absolute inset-0 w-full h-full object-cover opacity-60"
@@ -72,7 +72,7 @@ export default function Live() {
                 <p className="text-muted-foreground text-sm mb-4">Analyse des retombées du sommet de l'Union Africaine en direct d'Addis-Abeba avec nos envoyés spéciaux.</p>
                 <div className="flex items-center gap-3">
                   <Avatar className="h-10 w-10 border border-border">
-                    <AvatarImage src="https://images.unsplash.com/photo-1495020689067-958852a7765e?w=100&auto=format&fit=crop" />
+                      <SafeImage src="https://images.unsplash.com/photo-1495020689067-958852a7765e?w=100&auto=format&fit=crop" alt="Marie-Laure N'Goran" className="h-full w-full object-cover" />
                     <AvatarFallback>ML</AvatarFallback>
                   </Avatar>
                   <div>

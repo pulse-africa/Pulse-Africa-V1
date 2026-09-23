@@ -1,9 +1,21 @@
 import React from 'react';
-import { MOCK_SHOWS } from '@/data/mock';
+import { useListShows } from '@workspace/api-client-react';
 import { Bell, Calendar, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import SafeImage from '@/components/content/SafeImage';
+import ContentInteractions from '@/components/content/ContentInteractions';
 
 export default function Emissions() {
+  const showsQuery = useListShows();
+  const shows = showsQuery.data ?? [];
+
+  if (showsQuery.isLoading) {
+    return <div className="container mx-auto px-4 py-16 text-center text-muted-foreground">Chargement des émissions...</div>;
+  }
+  if (showsQuery.isError) {
+    return <div className="container mx-auto px-4 py-16 text-center text-destructive">Les émissions sont indisponibles pour le moment.</div>;
+  }
+
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
       <div className="mb-12">
@@ -14,10 +26,10 @@ export default function Emissions() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {MOCK_SHOWS.map(show => (
+        {shows.map(show => (
           <div key={show.id} className="flex flex-col sm:flex-row bg-card border border-border rounded-xl overflow-hidden group">
             <div className="sm:w-2/5 aspect-[3/4] sm:aspect-auto relative overflow-hidden shrink-0">
-              <img 
+              <SafeImage 
                 src={show.coverUrl} 
                 alt={show.title} 
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" 
@@ -43,10 +55,11 @@ export default function Emissions() {
               </div>
 
               <div className="pt-6 border-t border-border/50 flex items-center justify-between gap-4 mt-4">
-                <div className="text-xs text-muted-foreground">
+                  <div className="text-xs text-muted-foreground">
                   <span className="font-bold text-foreground">{(show.subscribers / 1000000).toFixed(1)}M</span> abonnés
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap justify-end gap-2">
+                  <ContentInteractions contentId={`show:${show.id}`} title={show.title} authorName={show.host} compact />
                   <Button variant="outline" size="sm" className="border-border bg-transparent hover:text-primary hover:border-primary px-3">
                     <Play size={14} className="mr-1" /> Replays
                   </Button>

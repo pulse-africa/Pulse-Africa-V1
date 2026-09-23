@@ -2,6 +2,7 @@ import React from 'react';
 import { MOCK_VIDEOS } from '@/data/mock';
 import { Button } from '@/components/ui/button';
 import { Plus, MoreHorizontal, PlayCircle } from 'lucide-react';
+import SafeImage from '@/components/content/SafeImage';
 
 export default function StudioVideos() {
   return (
@@ -20,7 +21,7 @@ export default function StudioVideos() {
         {MOCK_VIDEOS.map(video => (
           <div key={video.id} className="bg-card border border-border rounded-lg overflow-hidden group">
             <div className="relative aspect-video">
-              <img src={video.thumbnailUrl} alt="" className="w-full h-full object-cover" />
+              <SafeImage src={video.thumbnailUrl} alt="" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                 <PlayCircle size={32} className="text-white" />
               </div>

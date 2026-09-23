@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { MOCK_ARTICLES, Category } from '@/data/mock';
+import { useListArticles } from '@workspace/api-client-react';
 import ArticleCard from '@/components/content/ArticleCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-const CATEGORIES: Category[] = ['Politique', 'Économie', 'Sport', 'Culture', 'Tech', 'Santé', 'Environnement', 'Monde'];
+const CATEGORIES = ['Politique', 'Économie', 'Sport', 'Culture', 'Tech', 'Santé', 'Environnement', 'Monde'] as const;
 
 export default function Actualites() {
-  const [activeCategory, setActiveCategory] = useState<Category | 'Tous'>('Tous');
+  const [activeCategory, setActiveCategory] = useState<(typeof CATEGORIES)[number] | 'Tous'>('Tous');
+  const articlesQuery = useListArticles();
+  const articles = articlesQuery.data ?? [];
   
-  const filteredArticles = MOCK_ARTICLES.filter(
+  const filteredArticles = articles.filter(
     a => activeCategory === 'Tous' || a.category === activeCategory
   );
 
@@ -42,6 +44,8 @@ export default function Actualites() {
         </div>
       </div>
 
+      {articlesQuery.isLoading && <div className="py-12 text-center text-muted-foreground">Chargement des articles...</div>}
+      {articlesQuery.isError && <div className="py-12 text-center text-destructive">Les articles sont indisponibles pour le moment.</div>}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
         {/* Main Feed */}
         <div className="lg:col-span-8">
@@ -87,7 +91,7 @@ export default function Actualites() {
               </h3>
             </div>
             <div className="flex flex-col p-4 gap-4">
-              {MOCK_ARTICLES.filter(a => a.isTrending).map((article, idx) => (
+              {articles.filter(a => a.isTrending).map((article, idx) => (
                 <div key={article.id} className="flex gap-4 items-start group cursor-pointer">
                   <span className="text-3xl font-black text-muted-foreground/30 font-serif leading-none mt-1 group-hover:text-primary/40 transition-colors">
                     {idx + 1}

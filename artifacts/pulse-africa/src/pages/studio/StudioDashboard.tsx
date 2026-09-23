@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FileText, Users, Eye, CreditCard, ArrowUpRight } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { MOCK_ARTICLES } from '@/data/mock';
+import SafeImage from '@/components/content/SafeImage';
 
 const data = [
   { name: '1 Oct', views: 4000 },
@@ -105,7 +106,7 @@ export default function StudioDashboard() {
               {MOCK_ARTICLES.slice(0, 4).map((article) => (
                 <div key={article.id} className="flex items-center">
                   <div className="w-12 h-12 rounded bg-muted overflow-hidden mr-4 shrink-0">
-                    <img src={article.imageUrl} alt="" className="w-full h-full object-cover" />
+                    <SafeImage src={article.imageUrl} alt="" className="w-full h-full object-cover" />
                   </div>
                   <div className="ml-4 space-y-1 flex-1 overflow-hidden">
                     <p className="text-sm font-medium leading-none truncate">{article.title}</p>
