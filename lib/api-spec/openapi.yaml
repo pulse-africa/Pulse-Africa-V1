@@ -129,7 +129,405 @@ paths:
           description: Invalid comment
         "404":
           description: Article not found
+  /studio/summary:
+    get:
+      operationId: getStudioSummary
+      tags: [studio]
+      summary: Get Studio dashboard summary
+      responses:
+        "200":
+          description: Studio summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StudioSummary"
+  /studio/articles:
+    get:
+      operationId: listStudioArticles
+      tags: [studio]
+      summary: List articles for Studio
+      responses:
+        "200":
+          description: Studio articles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Article"
+    post:
+      operationId: createStudioArticle
+      tags: [studio]
+      summary: Create an article from Studio
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StudioArticleInput"
+      responses:
+        "201":
+          description: Created article
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+        "400":
+          description: Invalid article
+  /studio/articles/{id}:
+    patch:
+      operationId: updateStudioArticle
+      tags: [studio]
+      summary: Update an article from Studio
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StudioArticleInput"
+      responses:
+        "200":
+          description: Updated article
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+        "404":
+          description: Article not found
+    delete:
+      operationId: deleteStudioArticle
+      tags: [studio]
+      summary: Delete an article from Studio
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "204":
+          description: Deleted article
+        "404":
+          description: Article not found
+  /studio/videos:
+    get:
+      operationId: listStudioVideos
+      tags: [studio]
+      summary: List videos for Studio
+      responses:
+        "200":
+          description: Studio videos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Video"
+    post:
+      operationId: createStudioVideo
+      tags: [studio]
+      summary: Create a video from Studio
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StudioVideoInput"
+      responses:
+        "201":
+          description: Created video
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Video"
+  /studio/videos/{id}:
+    patch:
+      operationId: updateStudioVideo
+      tags: [studio]
+      summary: Update a video from Studio
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StudioVideoInput"
+      responses:
+        "200":
+          description: Updated video
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Video"
+        "404":
+          description: Video not found
+    delete:
+      operationId: deleteStudioVideo
+      tags: [studio]
+      summary: Delete a video from Studio
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "204":
+          description: Deleted video
+        "404":
+          description: Video not found
+  /studio/shows:
+    get:
+      operationId: listStudioShows
+      tags: [studio]
+      summary: List shows for Studio
+      responses:
+        "200":
+          description: Studio shows
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Show"
+    post:
+      operationId: createStudioShow
+      tags: [studio]
+      summary: Create a show from Studio
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StudioShowInput"
+      responses:
+        "201":
+          description: Created show
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Show"
+  /studio/shows/{id}:
+    patch:
+      operationId: updateStudioShow
+      tags: [studio]
+      summary: Update a show from Studio
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StudioShowInput"
+      responses:
+        "200":
+          description: Updated show
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Show"
+        "404":
+          description: Show not found
+    delete:
+      operationId: deleteStudioShow
+      tags: [studio]
+      summary: Delete a show from Studio
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "204":
+          description: Deleted show
+        "404":
+          description: Show not found
+  /studio/comments:
+    get:
+      operationId: listStudioComments
+      tags: [studio]
+      summary: List all comments for Studio
+      responses:
+        "200":
+          description: Studio comments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/StudioComment"
+  /studio/comments/{id}:
+    patch:
+      operationId: updateStudioComment
+      tags: [studio]
+      summary: Update comment moderation status
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StatusUpdateInput"
+      responses:
+        "200":
+          description: Updated comment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StudioComment"
+        "404":
+          description: Comment not found
+  /studio/users:
+    get:
+      operationId: listStudioUsers
+      tags: [studio]
+      summary: List Studio users
+      responses:
+        "200":
+          description: Studio users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/StudioUser"
+    post:
+      operationId: inviteStudioUser
+      tags: [studio]
+      summary: Add a Studio user invitation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StudioUserInput"
+      responses:
+        "201":
+          description: Created Studio user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StudioUser"
+  /studio/moderation/reports:
+    get:
+      operationId: listModerationReports
+      tags: [studio]
+      summary: List moderation reports
+      responses:
+        "200":
+          description: Moderation reports
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ModerationReport"
+  /studio/moderation/reports/{id}:
+    patch:
+      operationId: updateModerationReport
+      tags: [studio]
+      summary: Resolve a moderation report
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StatusUpdateInput"
+      responses:
+        "200":
+          description: Updated moderation report
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ModerationReport"
+        "404":
+          description: Report not found
+  /studio/analytics:
+    get:
+      operationId: getStudioAnalytics
+      tags: [studio]
+      summary: Get Studio analytics
+      responses:
+        "200":
+          description: Analytics data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StudioAnalytics"
+  /studio/monetization:
+    get:
+      operationId: getStudioMonetization
+      tags: [studio]
+      summary: Get Studio monetization data
+      responses:
+        "200":
+          description: Monetization data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StudioMonetization"
+  /studio/settings:
+    get:
+      operationId: getStudioSettings
+      tags: [studio]
+      summary: Get Studio settings
+      responses:
+        "200":
+          description: Studio settings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StudioSettings"
+    patch:
+      operationId: updateStudioSettings
+      tags: [studio]
+      summary: Update Studio settings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StudioSettings"
+      responses:
+        "200":
+          description: Updated Studio settings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StudioSettings"
+  /studio/live:
+    get:
+      operationId: getStudioLive
+      tags: [studio]
+      summary: Get live control room state
+      responses:
+        "200":
+          description: Live state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StudioLive"
+    patch:
+      operationId: updateStudioLive
+      tags: [studio]
+      summary: Update live state
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LiveUpdateInput"
+      responses:
+        "200":
+          description: Updated live state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StudioLive"
 components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
   schemas:
     HealthStatus:
       type: object
@@ -250,4 +648,274 @@ components:
         text:
           type: string
       required: [articleId, user, text]
+    StudioArticleInput:
+      type: object
+      properties:
+        slug:
+          type: string
+        title:
+          type: string
+        excerpt:
+          type: string
+        content:
+          type: [string, "null"]
+        category:
+          type: string
+        authorName:
+          type: string
+        authorAvatar:
+          type: string
+        publishedAt:
+          type: string
+        readTime:
+          type: number
+        imageUrl:
+          type: string
+        isBreaking:
+          type: boolean
+        isTrending:
+          type: boolean
+      required: [slug, title, excerpt, category, authorName, authorAvatar, publishedAt, readTime, imageUrl, isBreaking, isTrending]
+    StudioVideoInput:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        duration:
+          type: string
+        thumbnailUrl:
+          type: string
+        publishedAt:
+          type: string
+        author:
+          type: string
+      required: [title, description, category, duration, thumbnailUrl, publishedAt, author]
+    StudioShowInput:
+      type: object
+      properties:
+        title:
+          type: string
+        host:
+          type: string
+        schedule:
+          type: string
+        nextEpisode:
+          type: string
+        coverUrl:
+          type: string
+        subscribers:
+          type: number
+        isLive:
+          type: boolean
+      required: [title, host, schedule, nextEpisode, coverUrl, subscribers, isLive]
+    StatusUpdateInput:
+      type: object
+      properties:
+        status:
+          type: string
+      required: [status]
+    StudioComment:
+      type: object
+      properties:
+        id:
+          type: string
+        articleId:
+          type: string
+        articleTitle:
+          type: string
+        user:
+          type: string
+        avatar:
+          type: [string, "null"]
+        text:
+          type: string
+        time:
+          type: string
+        status:
+          type: string
+      required: [id, articleId, articleTitle, user, avatar, text, time, status]
+    StudioUser:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+        status:
+          type: string
+        joined:
+          type: string
+      required: [id, name, email, role, status, joined]
+    StudioUserInput:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+      required: [name, email, role]
+    ModerationReport:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        subject:
+          type: string
+        reason:
+          type: string
+        reporter:
+          type: string
+        status:
+          type: string
+        createdAt:
+          type: string
+      required: [id, type, subject, reason, reporter, status, createdAt]
+    StudioAnalyticsPoint:
+      type: object
+      properties:
+        name:
+          type: string
+        visitors:
+          type: number
+        views:
+          type: number
+      required: [name, visitors, views]
+    StudioTrafficSource:
+      type: object
+      properties:
+        label:
+          type: string
+        value:
+          type: number
+      required: [label, value]
+    StudioAnalytics:
+      type: object
+      properties:
+        visitors:
+          type: number
+        views:
+          type: number
+        averageDuration:
+          type: string
+        activeCountries:
+          type: number
+        daily:
+          type: array
+          items:
+            $ref: "#/components/schemas/StudioAnalyticsPoint"
+        trafficSources:
+          type: array
+          items:
+            $ref: "#/components/schemas/StudioTrafficSource"
+        geography:
+          type: array
+          items:
+            $ref: "#/components/schemas/StudioTrafficSource"
+      required: [visitors, views, averageDuration, activeCountries, daily, trafficSources, geography]
+    StudioPlan:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        priceCents:
+          type: number
+        currency:
+          type: string
+        description:
+          type: string
+        features:
+          type: array
+          items:
+            type: string
+        isActive:
+          type: boolean
+      required: [id, name, priceCents, currency, description, features, isActive]
+    StudioMonetization:
+      type: object
+      properties:
+        recurringRevenueCents:
+          type: number
+        premiumSubscribers:
+          type: number
+        conversionRate:
+          type: number
+        plans:
+          type: array
+          items:
+            $ref: "#/components/schemas/StudioPlan"
+      required: [recurringRevenueCents, premiumSubscribers, conversionRate, plans]
+    StudioSettings:
+      type: object
+      properties:
+        siteName:
+          type: string
+        siteLanguage:
+          type: string
+        siteDescription:
+          type: string
+        editorialEmail:
+          type: string
+        dailyDigest:
+          type: boolean
+        moderationAlerts:
+          type: boolean
+        weeklyAnalytics:
+          type: boolean
+      required: [siteName, siteLanguage, siteDescription, editorialEmail, dailyDigest, moderationAlerts, weeklyAnalytics]
+    StudioLive:
+      type: object
+      properties:
+        isLive:
+          type: boolean
+        viewers:
+          type: number
+        currentShow:
+          $ref: "#/components/schemas/Show"
+        upcoming:
+          type: array
+          items:
+            $ref: "#/components/schemas/Show"
+      required: [isLive, viewers, upcoming]
+    LiveUpdateInput:
+      type: object
+      properties:
+        isLive:
+          type: boolean
+        showId:
+          type: [string, "null"]
+      required: [isLive]
+    StudioSummary:
+      type: object
+      properties:
+        totalViews:
+          type: number
+        premiumSubscribers:
+          type: number
+        publishedArticles:
+          type: number
+        recurringRevenueCents:
+          type: number
+        daily:
+          type: array
+          items:
+            $ref: "#/components/schemas/StudioAnalyticsPoint"
+        topArticles:
+          type: array
+          items:
+            $ref: "#/components/schemas/Article"
+      required: [totalViews, premiumSubscribers, publishedArticles, recurringRevenueCents, daily, topArticles]
 

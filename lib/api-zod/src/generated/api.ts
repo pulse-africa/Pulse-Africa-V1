@@ -143,3 +143,575 @@ export const CreateCommentResponse = zod.object({
 })
 
 
+/**
+ * @summary Get Studio dashboard summary
+ */
+export const GetStudioSummaryResponse = zod.object({
+  "totalViews": zod.number(),
+  "premiumSubscribers": zod.number(),
+  "publishedArticles": zod.number(),
+  "recurringRevenueCents": zod.number(),
+  "daily": zod.array(zod.object({
+  "name": zod.string(),
+  "visitors": zod.number(),
+  "views": zod.number()
+})),
+  "topArticles": zod.array(zod.object({
+  "id": zod.string(),
+  "slug": zod.string(),
+  "title": zod.string(),
+  "excerpt": zod.string(),
+  "content": zod.string().nullish(),
+  "category": zod.string(),
+  "author": zod.object({
+  "name": zod.string(),
+  "avatar": zod.string()
+}),
+  "publishedAt": zod.string(),
+  "readTime": zod.number(),
+  "imageUrl": zod.string(),
+  "isBreaking": zod.boolean(),
+  "isTrending": zod.boolean(),
+  "views": zod.number(),
+  "likes": zod.number(),
+  "commentsCount": zod.number()
+}))
+})
+
+
+/**
+ * @summary List articles for Studio
+ */
+export const ListStudioArticlesResponseItem = zod.object({
+  "id": zod.string(),
+  "slug": zod.string(),
+  "title": zod.string(),
+  "excerpt": zod.string(),
+  "content": zod.string().nullish(),
+  "category": zod.string(),
+  "author": zod.object({
+  "name": zod.string(),
+  "avatar": zod.string()
+}),
+  "publishedAt": zod.string(),
+  "readTime": zod.number(),
+  "imageUrl": zod.string(),
+  "isBreaking": zod.boolean(),
+  "isTrending": zod.boolean(),
+  "views": zod.number(),
+  "likes": zod.number(),
+  "commentsCount": zod.number()
+})
+export const ListStudioArticlesResponse = zod.array(ListStudioArticlesResponseItem)
+
+
+/**
+ * @summary Create an article from Studio
+ */
+export const CreateStudioArticleBody = zod.object({
+  "slug": zod.string(),
+  "title": zod.string(),
+  "excerpt": zod.string(),
+  "content": zod.string().nullish(),
+  "category": zod.string(),
+  "authorName": zod.string(),
+  "authorAvatar": zod.string(),
+  "publishedAt": zod.string(),
+  "readTime": zod.number(),
+  "imageUrl": zod.string(),
+  "isBreaking": zod.boolean(),
+  "isTrending": zod.boolean()
+})
+
+export const CreateStudioArticleResponse = zod.object({
+  "id": zod.string(),
+  "slug": zod.string(),
+  "title": zod.string(),
+  "excerpt": zod.string(),
+  "content": zod.string().nullish(),
+  "category": zod.string(),
+  "author": zod.object({
+  "name": zod.string(),
+  "avatar": zod.string()
+}),
+  "publishedAt": zod.string(),
+  "readTime": zod.number(),
+  "imageUrl": zod.string(),
+  "isBreaking": zod.boolean(),
+  "isTrending": zod.boolean(),
+  "views": zod.number(),
+  "likes": zod.number(),
+  "commentsCount": zod.number()
+})
+
+
+/**
+ * @summary Update an article from Studio
+ */
+export const UpdateStudioArticleParams = zod.object({
+  "id": zod.coerce.string()
+})
+
+export const UpdateStudioArticleBody = zod.object({
+  "slug": zod.string(),
+  "title": zod.string(),
+  "excerpt": zod.string(),
+  "content": zod.string().nullish(),
+  "category": zod.string(),
+  "authorName": zod.string(),
+  "authorAvatar": zod.string(),
+  "publishedAt": zod.string(),
+  "readTime": zod.number(),
+  "imageUrl": zod.string(),
+  "isBreaking": zod.boolean(),
+  "isTrending": zod.boolean()
+})
+
+export const UpdateStudioArticleResponse = zod.object({
+  "id": zod.string(),
+  "slug": zod.string(),
+  "title": zod.string(),
+  "excerpt": zod.string(),
+  "content": zod.string().nullish(),
+  "category": zod.string(),
+  "author": zod.object({
+  "name": zod.string(),
+  "avatar": zod.string()
+}),
+  "publishedAt": zod.string(),
+  "readTime": zod.number(),
+  "imageUrl": zod.string(),
+  "isBreaking": zod.boolean(),
+  "isTrending": zod.boolean(),
+  "views": zod.number(),
+  "likes": zod.number(),
+  "commentsCount": zod.number()
+})
+
+
+/**
+ * @summary Delete an article from Studio
+ */
+export const DeleteStudioArticleParams = zod.object({
+  "id": zod.coerce.string()
+})
+
+export const DeleteStudioArticleResponse = zod.void()
+
+
+/**
+ * @summary List videos for Studio
+ */
+export const ListStudioVideosResponseItem = zod.object({
+  "id": zod.string(),
+  "title": zod.string(),
+  "description": zod.string(),
+  "category": zod.string(),
+  "duration": zod.string(),
+  "views": zod.number(),
+  "thumbnailUrl": zod.string(),
+  "publishedAt": zod.string(),
+  "author": zod.string()
+})
+export const ListStudioVideosResponse = zod.array(ListStudioVideosResponseItem)
+
+
+/**
+ * @summary Create a video from Studio
+ */
+export const CreateStudioVideoBody = zod.object({
+  "title": zod.string(),
+  "description": zod.string(),
+  "category": zod.string(),
+  "duration": zod.string(),
+  "thumbnailUrl": zod.string(),
+  "publishedAt": zod.string(),
+  "author": zod.string()
+})
+
+export const CreateStudioVideoResponse = zod.object({
+  "id": zod.string(),
+  "title": zod.string(),
+  "description": zod.string(),
+  "category": zod.string(),
+  "duration": zod.string(),
+  "views": zod.number(),
+  "thumbnailUrl": zod.string(),
+  "publishedAt": zod.string(),
+  "author": zod.string()
+})
+
+
+/**
+ * @summary Update a video from Studio
+ */
+export const UpdateStudioVideoParams = zod.object({
+  "id": zod.coerce.string()
+})
+
+export const UpdateStudioVideoBody = zod.object({
+  "title": zod.string(),
+  "description": zod.string(),
+  "category": zod.string(),
+  "duration": zod.string(),
+  "thumbnailUrl": zod.string(),
+  "publishedAt": zod.string(),
+  "author": zod.string()
+})
+
+export const UpdateStudioVideoResponse = zod.object({
+  "id": zod.string(),
+  "title": zod.string(),
+  "description": zod.string(),
+  "category": zod.string(),
+  "duration": zod.string(),
+  "views": zod.number(),
+  "thumbnailUrl": zod.string(),
+  "publishedAt": zod.string(),
+  "author": zod.string()
+})
+
+
+/**
+ * @summary Delete a video from Studio
+ */
+export const DeleteStudioVideoParams = zod.object({
+  "id": zod.coerce.string()
+})
+
+export const DeleteStudioVideoResponse = zod.void()
+
+
+/**
+ * @summary List shows for Studio
+ */
+export const ListStudioShowsResponseItem = zod.object({
+  "id": zod.string(),
+  "title": zod.string(),
+  "host": zod.string(),
+  "schedule": zod.string(),
+  "nextEpisode": zod.string(),
+  "coverUrl": zod.string(),
+  "subscribers": zod.number(),
+  "isLive": zod.boolean()
+})
+export const ListStudioShowsResponse = zod.array(ListStudioShowsResponseItem)
+
+
+/**
+ * @summary Create a show from Studio
+ */
+export const CreateStudioShowBody = zod.object({
+  "title": zod.string(),
+  "host": zod.string(),
+  "schedule": zod.string(),
+  "nextEpisode": zod.string(),
+  "coverUrl": zod.string(),
+  "subscribers": zod.number(),
+  "isLive": zod.boolean()
+})
+
+export const CreateStudioShowResponse = zod.object({
+  "id": zod.string(),
+  "title": zod.string(),
+  "host": zod.string(),
+  "schedule": zod.string(),
+  "nextEpisode": zod.string(),
+  "coverUrl": zod.string(),
+  "subscribers": zod.number(),
+  "isLive": zod.boolean()
+})
+
+
+/**
+ * @summary Update a show from Studio
+ */
+export const UpdateStudioShowParams = zod.object({
+  "id": zod.coerce.string()
+})
+
+export const UpdateStudioShowBody = zod.object({
+  "title": zod.string(),
+  "host": zod.string(),
+  "schedule": zod.string(),
+  "nextEpisode": zod.string(),
+  "coverUrl": zod.string(),
+  "subscribers": zod.number(),
+  "isLive": zod.boolean()
+})
+
+export const UpdateStudioShowResponse = zod.object({
+  "id": zod.string(),
+  "title": zod.string(),
+  "host": zod.string(),
+  "schedule": zod.string(),
+  "nextEpisode": zod.string(),
+  "coverUrl": zod.string(),
+  "subscribers": zod.number(),
+  "isLive": zod.boolean()
+})
+
+
+/**
+ * @summary Delete a show from Studio
+ */
+export const DeleteStudioShowParams = zod.object({
+  "id": zod.coerce.string()
+})
+
+export const DeleteStudioShowResponse = zod.void()
+
+
+/**
+ * @summary List all comments for Studio
+ */
+export const ListStudioCommentsResponseItem = zod.object({
+  "id": zod.string(),
+  "articleId": zod.string(),
+  "articleTitle": zod.string(),
+  "user": zod.string(),
+  "avatar": zod.string().nullable(),
+  "text": zod.string(),
+  "time": zod.string(),
+  "status": zod.string()
+})
+export const ListStudioCommentsResponse = zod.array(ListStudioCommentsResponseItem)
+
+
+/**
+ * @summary Update comment moderation status
+ */
+export const UpdateStudioCommentParams = zod.object({
+  "id": zod.coerce.string()
+})
+
+export const UpdateStudioCommentBody = zod.object({
+  "status": zod.string()
+})
+
+export const UpdateStudioCommentResponse = zod.object({
+  "id": zod.string(),
+  "articleId": zod.string(),
+  "articleTitle": zod.string(),
+  "user": zod.string(),
+  "avatar": zod.string().nullable(),
+  "text": zod.string(),
+  "time": zod.string(),
+  "status": zod.string()
+})
+
+
+/**
+ * @summary List Studio users
+ */
+export const ListStudioUsersResponseItem = zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "email": zod.string(),
+  "role": zod.string(),
+  "status": zod.string(),
+  "joined": zod.string()
+})
+export const ListStudioUsersResponse = zod.array(ListStudioUsersResponseItem)
+
+
+/**
+ * @summary Add a Studio user invitation
+ */
+export const InviteStudioUserBody = zod.object({
+  "name": zod.string(),
+  "email": zod.string(),
+  "role": zod.string()
+})
+
+export const InviteStudioUserResponse = zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "email": zod.string(),
+  "role": zod.string(),
+  "status": zod.string(),
+  "joined": zod.string()
+})
+
+
+/**
+ * @summary List moderation reports
+ */
+export const ListModerationReportsResponseItem = zod.object({
+  "id": zod.string(),
+  "type": zod.string(),
+  "subject": zod.string(),
+  "reason": zod.string(),
+  "reporter": zod.string(),
+  "status": zod.string(),
+  "createdAt": zod.string()
+})
+export const ListModerationReportsResponse = zod.array(ListModerationReportsResponseItem)
+
+
+/**
+ * @summary Resolve a moderation report
+ */
+export const UpdateModerationReportParams = zod.object({
+  "id": zod.coerce.string()
+})
+
+export const UpdateModerationReportBody = zod.object({
+  "status": zod.string()
+})
+
+export const UpdateModerationReportResponse = zod.object({
+  "id": zod.string(),
+  "type": zod.string(),
+  "subject": zod.string(),
+  "reason": zod.string(),
+  "reporter": zod.string(),
+  "status": zod.string(),
+  "createdAt": zod.string()
+})
+
+
+/**
+ * @summary Get Studio analytics
+ */
+export const GetStudioAnalyticsResponse = zod.object({
+  "visitors": zod.number(),
+  "views": zod.number(),
+  "averageDuration": zod.string(),
+  "activeCountries": zod.number(),
+  "daily": zod.array(zod.object({
+  "name": zod.string(),
+  "visitors": zod.number(),
+  "views": zod.number()
+})),
+  "trafficSources": zod.array(zod.object({
+  "label": zod.string(),
+  "value": zod.number()
+})),
+  "geography": zod.array(zod.object({
+  "label": zod.string(),
+  "value": zod.number()
+}))
+})
+
+
+/**
+ * @summary Get Studio monetization data
+ */
+export const GetStudioMonetizationResponse = zod.object({
+  "recurringRevenueCents": zod.number(),
+  "premiumSubscribers": zod.number(),
+  "conversionRate": zod.number(),
+  "plans": zod.array(zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "priceCents": zod.number(),
+  "currency": zod.string(),
+  "description": zod.string(),
+  "features": zod.array(zod.string()),
+  "isActive": zod.boolean()
+}))
+})
+
+
+/**
+ * @summary Get Studio settings
+ */
+export const GetStudioSettingsResponse = zod.object({
+  "siteName": zod.string(),
+  "siteLanguage": zod.string(),
+  "siteDescription": zod.string(),
+  "editorialEmail": zod.string(),
+  "dailyDigest": zod.boolean(),
+  "moderationAlerts": zod.boolean(),
+  "weeklyAnalytics": zod.boolean()
+})
+
+
+/**
+ * @summary Update Studio settings
+ */
+export const UpdateStudioSettingsBody = zod.object({
+  "siteName": zod.string(),
+  "siteLanguage": zod.string(),
+  "siteDescription": zod.string(),
+  "editorialEmail": zod.string(),
+  "dailyDigest": zod.boolean(),
+  "moderationAlerts": zod.boolean(),
+  "weeklyAnalytics": zod.boolean()
+})
+
+export const UpdateStudioSettingsResponse = zod.object({
+  "siteName": zod.string(),
+  "siteLanguage": zod.string(),
+  "siteDescription": zod.string(),
+  "editorialEmail": zod.string(),
+  "dailyDigest": zod.boolean(),
+  "moderationAlerts": zod.boolean(),
+  "weeklyAnalytics": zod.boolean()
+})
+
+
+/**
+ * @summary Get live control room state
+ */
+export const GetStudioLiveResponse = zod.object({
+  "isLive": zod.boolean(),
+  "viewers": zod.number(),
+  "currentShow": zod.object({
+  "id": zod.string(),
+  "title": zod.string(),
+  "host": zod.string(),
+  "schedule": zod.string(),
+  "nextEpisode": zod.string(),
+  "coverUrl": zod.string(),
+  "subscribers": zod.number(),
+  "isLive": zod.boolean()
+}).optional(),
+  "upcoming": zod.array(zod.object({
+  "id": zod.string(),
+  "title": zod.string(),
+  "host": zod.string(),
+  "schedule": zod.string(),
+  "nextEpisode": zod.string(),
+  "coverUrl": zod.string(),
+  "subscribers": zod.number(),
+  "isLive": zod.boolean()
+}))
+})
+
+
+/**
+ * @summary Update live state
+ */
+export const UpdateStudioLiveBody = zod.object({
+  "isLive": zod.boolean(),
+  "showId": zod.string().nullish()
+})
+
+export const UpdateStudioLiveResponse = zod.object({
+  "isLive": zod.boolean(),
+  "viewers": zod.number(),
+  "currentShow": zod.object({
+  "id": zod.string(),
+  "title": zod.string(),
+  "host": zod.string(),
+  "schedule": zod.string(),
+  "nextEpisode": zod.string(),
+  "coverUrl": zod.string(),
+  "subscribers": zod.number(),
+  "isLive": zod.boolean()
+}).optional(),
+  "upcoming": zod.array(zod.object({
+  "id": zod.string(),
+  "title": zod.string(),
+  "host": zod.string(),
+  "schedule": zod.string(),
+  "nextEpisode": zod.string(),
+  "coverUrl": zod.string(),
+  "subscribers": zod.number(),
+  "isLive": zod.boolean()
+}))
+})
+
+

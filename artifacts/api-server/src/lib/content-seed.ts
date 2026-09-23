@@ -1,5 +1,16 @@
 import { sql } from "drizzle-orm";
-import { db, articlesTable, commentsTable, showsTable, videosTable } from "@workspace/db";
+import {
+  analyticsDailyTable,
+  db,
+  articlesTable,
+  commentsTable,
+  moderationReportsTable,
+  monetizationPlansTable,
+  showsTable,
+  studioSettingsTable,
+  studioUsersTable,
+  videosTable,
+} from "@workspace/db";
 
 const articles = [
   {
@@ -163,16 +174,66 @@ const comments = [
   { id: "c3", articleId: "1", userName: "Nadia T.", avatar: "https://i.pravatar.cc/150?u=nadia", text: "Merci pour cette analyse claire et documentée." },
 ];
 
+const studioUsers = [
+  { id: "u1", name: "Koffi Diallo", email: "koffi@pulse.africa", role: "Administrateur", status: "Actif", joinedAt: new Date("2023-10-24T09:00:00Z") },
+  { id: "u2", name: "Chioma Okafor", email: "chioma@pulse.africa", role: "Journaliste", status: "Actif", joinedAt: new Date("2023-10-22T09:00:00Z") },
+  { id: "u3", name: "Youssef Bennis", email: "youssef@pulse.africa", role: "Journaliste", status: "Actif", joinedAt: new Date("2023-10-18T09:00:00Z") },
+  { id: "u4", name: "Aminata Sow", email: "aminata@reader.com", role: "Lectrice", status: "Actif", joinedAt: new Date("2023-10-14T09:00:00Z") },
+  { id: "u5", name: "Moussa Kone", email: "moussa@reader.com", role: "Lecteur", status: "Suspendu", joinedAt: new Date("2023-10-09T09:00:00Z") },
+];
+
+const moderationReports = [
+  { id: "r1", type: "Commentaire", subject: "La CAN 2025 : le Maroc favori", reason: "Contenu hors sujet", reporter: "A. N.", status: "En attente" },
+  { id: "r2", type: "Vidéo", subject: "Mobilité électrique à Nairobi", reason: "Droits d’auteur", reporter: "Automatique", status: "En attente" },
+  { id: "r3", type: "Compte", subject: "Reader_237", reason: "Comportement abusif", reporter: "M. K.", status: "Traité" },
+];
+
+const analyticsDaily = [
+  { day: "01", visitors: 4200, views: 6800 },
+  { day: "05", visitors: 5100, views: 8200 },
+  { day: "10", visitors: 7300, views: 10400 },
+  { day: "15", visitors: 6900, views: 9800 },
+  { day: "20", visitors: 9200, views: 13700 },
+  { day: "24", visitors: 11400, views: 16800 },
+];
+
+const settings = [
+  { key: "siteName", value: "Pulse Africa" },
+  { key: "siteLanguage", value: "Français" },
+  { key: "siteDescription", value: "L'Afrique, en profondeur." },
+  { key: "editorialEmail", value: "redaction@pulse.africa" },
+  { key: "dailyDigest", value: "true" },
+  { key: "moderationAlerts", value: "true" },
+  { key: "weeklyAnalytics", value: "false" },
+];
+
+const monetizationPlans = [
+  { id: "free", name: "Gratuit", priceCents: 0, currency: "EUR", description: "Accès aux contenus essentiels", features: JSON.stringify(["Actualités quotidiennes", "Vidéos sélectionnées", "Newsletter hebdomadaire"]), isActive: 1 },
+  { id: "premium", name: "Premium", priceCents: 699, currency: "EUR", description: "L’expérience Pulse complète", features: JSON.stringify(["Tous les articles et dossiers", "Vidéos sans publicité", "Newsletter premium", "Commentaires prioritaires"]), isActive: 1 },
+  { id: "pro", name: "Pro", priceCents: 1999, currency: "EUR", description: "Pour les professionnels", features: JSON.stringify(["Accès Studio Insights", "Briefing quotidien", "Archives intégrales", "Support prioritaire"]), isActive: 1 },
+];
+
 export async function ensureContentSeeded(): Promise<void> {
   const [{ count }] = await db.select({ count: sql<number>`count(*)` }).from(articlesTable);
-  if (Number(count) > 0) return;
+  if (Number(count) === 0) {
+    await db.insert(articlesTable).values(articles);
+    await db.insert(videosTable).values(videos);
+    await db.insert(showsTable).values(shows);
+    await db.insert(commentsTable).values(comments.map((comment, index) => ({
+      ...comment,
+      status: "approved",
+      createdAt: new Date(Date.now() - (index + 2) * 60 * 60 * 1000),
+    })));
+  }
 
-  await db.insert(articlesTable).values(articles);
-  await db.insert(videosTable).values(videos);
-  await db.insert(showsTable).values(shows);
-  await db.insert(commentsTable).values(comments.map((comment, index) => ({
-    ...comment,
-    status: "approved",
-    createdAt: new Date(Date.now() - (index + 2) * 60 * 60 * 1000),
-  })));
+  const [{ count: userCount }] = await db.select({ count: sql<number>`count(*)` }).from(studioUsersTable);
+  if (Number(userCount) === 0) await db.insert(studioUsersTable).values(studioUsers);
+  const [{ count: reportCount }] = await db.select({ count: sql<number>`count(*)` }).from(moderationReportsTable);
+  if (Number(reportCount) === 0) await db.insert(moderationReportsTable).values(moderationReports);
+  const [{ count: analyticsCount }] = await db.select({ count: sql<number>`count(*)` }).from(analyticsDailyTable);
+  if (Number(analyticsCount) === 0) await db.insert(analyticsDailyTable).values(analyticsDaily);
+  const [{ count: settingsCount }] = await db.select({ count: sql<number>`count(*)` }).from(studioSettingsTable);
+  if (Number(settingsCount) === 0) await db.insert(studioSettingsTable).values(settings);
+  const [{ count: planCount }] = await db.select({ count: sql<number>`count(*)` }).from(monetizationPlansTable);
+  if (Number(planCount) === 0) await db.insert(monetizationPlansTable).values(monetizationPlans);
 }

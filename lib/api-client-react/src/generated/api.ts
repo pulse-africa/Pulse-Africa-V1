@@ -25,7 +25,21 @@ import type {
   CreateCommentInput,
   HealthStatus,
   ListCommentsParams,
+  LiveUpdateInput,
+  ModerationReport,
   Show,
+  StatusUpdateInput,
+  StudioAnalytics,
+  StudioArticleInput,
+  StudioComment,
+  StudioLive,
+  StudioMonetization,
+  StudioSettings,
+  StudioShowInput,
+  StudioSummary,
+  StudioUser,
+  StudioUserInput,
+  StudioVideoInput,
   Video
 } from './api.schemas';
 
@@ -595,5 +609,1851 @@ export const useCreateComment = <TError = ErrorType<void>,
         TContext
       > => {
       return useMutation(getCreateCommentMutationOptions(options));
+    }
+
+export const getGetStudioSummaryUrl = () => {
+
+
+
+
+  return `/api/studio/summary`
+}
+
+/**
+ * @summary Get Studio dashboard summary
+ */
+export const getStudioSummary = async ( options?: Parameters<typeof customFetch>[1]): Promise<StudioSummary> => {
+
+  return customFetch<StudioSummary>(getGetStudioSummaryUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetStudioSummaryQueryKey = () => {
+    return [
+    `/api/studio/summary`
+    ] as const;
+    }
+
+
+export const getGetStudioSummaryQueryOptions = <TData = Awaited<ReturnType<typeof getStudioSummary>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getStudioSummary>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetStudioSummaryQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getStudioSummary>>> = ({ signal }) => getStudioSummary({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getStudioSummary>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetStudioSummaryQueryResult = NonNullable<Awaited<ReturnType<typeof getStudioSummary>>>
+export type GetStudioSummaryQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary Get Studio dashboard summary
+ */
+
+export function useGetStudioSummary<TData = Awaited<ReturnType<typeof getStudioSummary>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getStudioSummary>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetStudioSummaryQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getListStudioArticlesUrl = () => {
+
+
+
+
+  return `/api/studio/articles`
+}
+
+/**
+ * @summary List articles for Studio
+ */
+export const listStudioArticles = async ( options?: Parameters<typeof customFetch>[1]): Promise<Article[]> => {
+
+  return customFetch<Article[]>(getListStudioArticlesUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListStudioArticlesQueryKey = () => {
+    return [
+    `/api/studio/articles`
+    ] as const;
+    }
+
+
+export const getListStudioArticlesQueryOptions = <TData = Awaited<ReturnType<typeof listStudioArticles>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listStudioArticles>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListStudioArticlesQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listStudioArticles>>> = ({ signal }) => listStudioArticles({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listStudioArticles>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ListStudioArticlesQueryResult = NonNullable<Awaited<ReturnType<typeof listStudioArticles>>>
+export type ListStudioArticlesQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary List articles for Studio
+ */
+
+export function useListStudioArticles<TData = Awaited<ReturnType<typeof listStudioArticles>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listStudioArticles>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getListStudioArticlesQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getCreateStudioArticleUrl = () => {
+
+
+
+
+  return `/api/studio/articles`
+}
+
+/**
+ * @summary Create an article from Studio
+ */
+export const createStudioArticle = async (studioArticleInput: StudioArticleInput, options?: Parameters<typeof customFetch>[1]): Promise<Article> => {
+
+  return customFetch<Article>(getCreateStudioArticleUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(studioArticleInput)
+  }
+);}
+
+
+
+
+
+export const getCreateStudioArticleMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createStudioArticle>>, TError,{data: BodyType<StudioArticleInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createStudioArticle>>, TError,{data: BodyType<StudioArticleInput>}, TContext> => {
+
+const mutationKey = ['createStudioArticle'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createStudioArticle>>, {data: BodyType<StudioArticleInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createStudioArticle(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateStudioArticleMutationResult = NonNullable<Awaited<ReturnType<typeof createStudioArticle>>>
+    export type CreateStudioArticleMutationBody = BodyType<StudioArticleInput>
+    export type CreateStudioArticleMutationError = ErrorType<void>
+
+    /**
+ * @summary Create an article from Studio
+ */
+export const useCreateStudioArticle = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createStudioArticle>>, TError,{data: BodyType<StudioArticleInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof createStudioArticle>>,
+        TError,
+        {data: BodyType<StudioArticleInput>},
+        TContext
+      > => {
+      return useMutation(getCreateStudioArticleMutationOptions(options));
+    }
+
+export const getUpdateStudioArticleUrl = (id: string,) => {
+
+
+
+
+  return `/api/studio/articles/${id}`
+}
+
+/**
+ * @summary Update an article from Studio
+ */
+export const updateStudioArticle = async (id: string,
+    studioArticleInput: StudioArticleInput, options?: Parameters<typeof customFetch>[1]): Promise<Article> => {
+
+  return customFetch<Article>(getUpdateStudioArticleUrl(id),
+  {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(studioArticleInput)
+  }
+);}
+
+
+
+
+
+export const getUpdateStudioArticleMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateStudioArticle>>, TError,{id: string;data: BodyType<StudioArticleInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateStudioArticle>>, TError,{id: string;data: BodyType<StudioArticleInput>}, TContext> => {
+
+const mutationKey = ['updateStudioArticle'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateStudioArticle>>, {id: string;data: BodyType<StudioArticleInput>}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateStudioArticle(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateStudioArticleMutationResult = NonNullable<Awaited<ReturnType<typeof updateStudioArticle>>>
+    export type UpdateStudioArticleMutationBody = BodyType<StudioArticleInput>
+    export type UpdateStudioArticleMutationError = ErrorType<void>
+
+    /**
+ * @summary Update an article from Studio
+ */
+export const useUpdateStudioArticle = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateStudioArticle>>, TError,{id: string;data: BodyType<StudioArticleInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateStudioArticle>>,
+        TError,
+        {id: string;data: BodyType<StudioArticleInput>},
+        TContext
+      > => {
+      return useMutation(getUpdateStudioArticleMutationOptions(options));
+    }
+
+export const getDeleteStudioArticleUrl = (id: string,) => {
+
+
+
+
+  return `/api/studio/articles/${id}`
+}
+
+/**
+ * @summary Delete an article from Studio
+ */
+export const deleteStudioArticle = async (id: string, options?: Parameters<typeof customFetch>[1]): Promise<void> => {
+
+  return customFetch<void>(getDeleteStudioArticleUrl(id),
+  {
+    ...options,
+    method: 'DELETE'
+
+
+  }
+);}
+
+
+
+
+
+export const getDeleteStudioArticleMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteStudioArticle>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteStudioArticle>>, TError,{id: string}, TContext> => {
+
+const mutationKey = ['deleteStudioArticle'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteStudioArticle>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteStudioArticle(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteStudioArticleMutationResult = NonNullable<Awaited<ReturnType<typeof deleteStudioArticle>>>
+
+    export type DeleteStudioArticleMutationError = ErrorType<void>
+
+    /**
+ * @summary Delete an article from Studio
+ */
+export const useDeleteStudioArticle = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteStudioArticle>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof deleteStudioArticle>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+      return useMutation(getDeleteStudioArticleMutationOptions(options));
+    }
+
+export const getListStudioVideosUrl = () => {
+
+
+
+
+  return `/api/studio/videos`
+}
+
+/**
+ * @summary List videos for Studio
+ */
+export const listStudioVideos = async ( options?: Parameters<typeof customFetch>[1]): Promise<Video[]> => {
+
+  return customFetch<Video[]>(getListStudioVideosUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListStudioVideosQueryKey = () => {
+    return [
+    `/api/studio/videos`
+    ] as const;
+    }
+
+
+export const getListStudioVideosQueryOptions = <TData = Awaited<ReturnType<typeof listStudioVideos>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listStudioVideos>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListStudioVideosQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listStudioVideos>>> = ({ signal }) => listStudioVideos({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listStudioVideos>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ListStudioVideosQueryResult = NonNullable<Awaited<ReturnType<typeof listStudioVideos>>>
+export type ListStudioVideosQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary List videos for Studio
+ */
+
+export function useListStudioVideos<TData = Awaited<ReturnType<typeof listStudioVideos>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listStudioVideos>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getListStudioVideosQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getCreateStudioVideoUrl = () => {
+
+
+
+
+  return `/api/studio/videos`
+}
+
+/**
+ * @summary Create a video from Studio
+ */
+export const createStudioVideo = async (studioVideoInput: StudioVideoInput, options?: Parameters<typeof customFetch>[1]): Promise<Video> => {
+
+  return customFetch<Video>(getCreateStudioVideoUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(studioVideoInput)
+  }
+);}
+
+
+
+
+
+export const getCreateStudioVideoMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createStudioVideo>>, TError,{data: BodyType<StudioVideoInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createStudioVideo>>, TError,{data: BodyType<StudioVideoInput>}, TContext> => {
+
+const mutationKey = ['createStudioVideo'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createStudioVideo>>, {data: BodyType<StudioVideoInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createStudioVideo(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateStudioVideoMutationResult = NonNullable<Awaited<ReturnType<typeof createStudioVideo>>>
+    export type CreateStudioVideoMutationBody = BodyType<StudioVideoInput>
+    export type CreateStudioVideoMutationError = ErrorType<unknown>
+
+    /**
+ * @summary Create a video from Studio
+ */
+export const useCreateStudioVideo = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createStudioVideo>>, TError,{data: BodyType<StudioVideoInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof createStudioVideo>>,
+        TError,
+        {data: BodyType<StudioVideoInput>},
+        TContext
+      > => {
+      return useMutation(getCreateStudioVideoMutationOptions(options));
+    }
+
+export const getUpdateStudioVideoUrl = (id: string,) => {
+
+
+
+
+  return `/api/studio/videos/${id}`
+}
+
+/**
+ * @summary Update a video from Studio
+ */
+export const updateStudioVideo = async (id: string,
+    studioVideoInput: StudioVideoInput, options?: Parameters<typeof customFetch>[1]): Promise<Video> => {
+
+  return customFetch<Video>(getUpdateStudioVideoUrl(id),
+  {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(studioVideoInput)
+  }
+);}
+
+
+
+
+
+export const getUpdateStudioVideoMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateStudioVideo>>, TError,{id: string;data: BodyType<StudioVideoInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateStudioVideo>>, TError,{id: string;data: BodyType<StudioVideoInput>}, TContext> => {
+
+const mutationKey = ['updateStudioVideo'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateStudioVideo>>, {id: string;data: BodyType<StudioVideoInput>}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateStudioVideo(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateStudioVideoMutationResult = NonNullable<Awaited<ReturnType<typeof updateStudioVideo>>>
+    export type UpdateStudioVideoMutationBody = BodyType<StudioVideoInput>
+    export type UpdateStudioVideoMutationError = ErrorType<void>
+
+    /**
+ * @summary Update a video from Studio
+ */
+export const useUpdateStudioVideo = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateStudioVideo>>, TError,{id: string;data: BodyType<StudioVideoInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateStudioVideo>>,
+        TError,
+        {id: string;data: BodyType<StudioVideoInput>},
+        TContext
+      > => {
+      return useMutation(getUpdateStudioVideoMutationOptions(options));
+    }
+
+export const getDeleteStudioVideoUrl = (id: string,) => {
+
+
+
+
+  return `/api/studio/videos/${id}`
+}
+
+/**
+ * @summary Delete a video from Studio
+ */
+export const deleteStudioVideo = async (id: string, options?: Parameters<typeof customFetch>[1]): Promise<void> => {
+
+  return customFetch<void>(getDeleteStudioVideoUrl(id),
+  {
+    ...options,
+    method: 'DELETE'
+
+
+  }
+);}
+
+
+
+
+
+export const getDeleteStudioVideoMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteStudioVideo>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteStudioVideo>>, TError,{id: string}, TContext> => {
+
+const mutationKey = ['deleteStudioVideo'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteStudioVideo>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteStudioVideo(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteStudioVideoMutationResult = NonNullable<Awaited<ReturnType<typeof deleteStudioVideo>>>
+
+    export type DeleteStudioVideoMutationError = ErrorType<void>
+
+    /**
+ * @summary Delete a video from Studio
+ */
+export const useDeleteStudioVideo = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteStudioVideo>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof deleteStudioVideo>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+      return useMutation(getDeleteStudioVideoMutationOptions(options));
+    }
+
+export const getListStudioShowsUrl = () => {
+
+
+
+
+  return `/api/studio/shows`
+}
+
+/**
+ * @summary List shows for Studio
+ */
+export const listStudioShows = async ( options?: Parameters<typeof customFetch>[1]): Promise<Show[]> => {
+
+  return customFetch<Show[]>(getListStudioShowsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListStudioShowsQueryKey = () => {
+    return [
+    `/api/studio/shows`
+    ] as const;
+    }
+
+
+export const getListStudioShowsQueryOptions = <TData = Awaited<ReturnType<typeof listStudioShows>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listStudioShows>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListStudioShowsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listStudioShows>>> = ({ signal }) => listStudioShows({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listStudioShows>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ListStudioShowsQueryResult = NonNullable<Awaited<ReturnType<typeof listStudioShows>>>
+export type ListStudioShowsQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary List shows for Studio
+ */
+
+export function useListStudioShows<TData = Awaited<ReturnType<typeof listStudioShows>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listStudioShows>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getListStudioShowsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getCreateStudioShowUrl = () => {
+
+
+
+
+  return `/api/studio/shows`
+}
+
+/**
+ * @summary Create a show from Studio
+ */
+export const createStudioShow = async (studioShowInput: StudioShowInput, options?: Parameters<typeof customFetch>[1]): Promise<Show> => {
+
+  return customFetch<Show>(getCreateStudioShowUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(studioShowInput)
+  }
+);}
+
+
+
+
+
+export const getCreateStudioShowMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createStudioShow>>, TError,{data: BodyType<StudioShowInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createStudioShow>>, TError,{data: BodyType<StudioShowInput>}, TContext> => {
+
+const mutationKey = ['createStudioShow'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createStudioShow>>, {data: BodyType<StudioShowInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createStudioShow(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateStudioShowMutationResult = NonNullable<Awaited<ReturnType<typeof createStudioShow>>>
+    export type CreateStudioShowMutationBody = BodyType<StudioShowInput>
+    export type CreateStudioShowMutationError = ErrorType<unknown>
+
+    /**
+ * @summary Create a show from Studio
+ */
+export const useCreateStudioShow = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createStudioShow>>, TError,{data: BodyType<StudioShowInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof createStudioShow>>,
+        TError,
+        {data: BodyType<StudioShowInput>},
+        TContext
+      > => {
+      return useMutation(getCreateStudioShowMutationOptions(options));
+    }
+
+export const getUpdateStudioShowUrl = (id: string,) => {
+
+
+
+
+  return `/api/studio/shows/${id}`
+}
+
+/**
+ * @summary Update a show from Studio
+ */
+export const updateStudioShow = async (id: string,
+    studioShowInput: StudioShowInput, options?: Parameters<typeof customFetch>[1]): Promise<Show> => {
+
+  return customFetch<Show>(getUpdateStudioShowUrl(id),
+  {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(studioShowInput)
+  }
+);}
+
+
+
+
+
+export const getUpdateStudioShowMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateStudioShow>>, TError,{id: string;data: BodyType<StudioShowInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateStudioShow>>, TError,{id: string;data: BodyType<StudioShowInput>}, TContext> => {
+
+const mutationKey = ['updateStudioShow'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateStudioShow>>, {id: string;data: BodyType<StudioShowInput>}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateStudioShow(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateStudioShowMutationResult = NonNullable<Awaited<ReturnType<typeof updateStudioShow>>>
+    export type UpdateStudioShowMutationBody = BodyType<StudioShowInput>
+    export type UpdateStudioShowMutationError = ErrorType<void>
+
+    /**
+ * @summary Update a show from Studio
+ */
+export const useUpdateStudioShow = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateStudioShow>>, TError,{id: string;data: BodyType<StudioShowInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateStudioShow>>,
+        TError,
+        {id: string;data: BodyType<StudioShowInput>},
+        TContext
+      > => {
+      return useMutation(getUpdateStudioShowMutationOptions(options));
+    }
+
+export const getDeleteStudioShowUrl = (id: string,) => {
+
+
+
+
+  return `/api/studio/shows/${id}`
+}
+
+/**
+ * @summary Delete a show from Studio
+ */
+export const deleteStudioShow = async (id: string, options?: Parameters<typeof customFetch>[1]): Promise<void> => {
+
+  return customFetch<void>(getDeleteStudioShowUrl(id),
+  {
+    ...options,
+    method: 'DELETE'
+
+
+  }
+);}
+
+
+
+
+
+export const getDeleteStudioShowMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteStudioShow>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteStudioShow>>, TError,{id: string}, TContext> => {
+
+const mutationKey = ['deleteStudioShow'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteStudioShow>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteStudioShow(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteStudioShowMutationResult = NonNullable<Awaited<ReturnType<typeof deleteStudioShow>>>
+
+    export type DeleteStudioShowMutationError = ErrorType<void>
+
+    /**
+ * @summary Delete a show from Studio
+ */
+export const useDeleteStudioShow = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteStudioShow>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof deleteStudioShow>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+      return useMutation(getDeleteStudioShowMutationOptions(options));
+    }
+
+export const getListStudioCommentsUrl = () => {
+
+
+
+
+  return `/api/studio/comments`
+}
+
+/**
+ * @summary List all comments for Studio
+ */
+export const listStudioComments = async ( options?: Parameters<typeof customFetch>[1]): Promise<StudioComment[]> => {
+
+  return customFetch<StudioComment[]>(getListStudioCommentsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListStudioCommentsQueryKey = () => {
+    return [
+    `/api/studio/comments`
+    ] as const;
+    }
+
+
+export const getListStudioCommentsQueryOptions = <TData = Awaited<ReturnType<typeof listStudioComments>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listStudioComments>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListStudioCommentsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listStudioComments>>> = ({ signal }) => listStudioComments({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listStudioComments>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ListStudioCommentsQueryResult = NonNullable<Awaited<ReturnType<typeof listStudioComments>>>
+export type ListStudioCommentsQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary List all comments for Studio
+ */
+
+export function useListStudioComments<TData = Awaited<ReturnType<typeof listStudioComments>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listStudioComments>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getListStudioCommentsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getUpdateStudioCommentUrl = (id: string,) => {
+
+
+
+
+  return `/api/studio/comments/${id}`
+}
+
+/**
+ * @summary Update comment moderation status
+ */
+export const updateStudioComment = async (id: string,
+    statusUpdateInput: StatusUpdateInput, options?: Parameters<typeof customFetch>[1]): Promise<StudioComment> => {
+
+  return customFetch<StudioComment>(getUpdateStudioCommentUrl(id),
+  {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(statusUpdateInput)
+  }
+);}
+
+
+
+
+
+export const getUpdateStudioCommentMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateStudioComment>>, TError,{id: string;data: BodyType<StatusUpdateInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateStudioComment>>, TError,{id: string;data: BodyType<StatusUpdateInput>}, TContext> => {
+
+const mutationKey = ['updateStudioComment'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateStudioComment>>, {id: string;data: BodyType<StatusUpdateInput>}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateStudioComment(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateStudioCommentMutationResult = NonNullable<Awaited<ReturnType<typeof updateStudioComment>>>
+    export type UpdateStudioCommentMutationBody = BodyType<StatusUpdateInput>
+    export type UpdateStudioCommentMutationError = ErrorType<void>
+
+    /**
+ * @summary Update comment moderation status
+ */
+export const useUpdateStudioComment = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateStudioComment>>, TError,{id: string;data: BodyType<StatusUpdateInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateStudioComment>>,
+        TError,
+        {id: string;data: BodyType<StatusUpdateInput>},
+        TContext
+      > => {
+      return useMutation(getUpdateStudioCommentMutationOptions(options));
+    }
+
+export const getListStudioUsersUrl = () => {
+
+
+
+
+  return `/api/studio/users`
+}
+
+/**
+ * @summary List Studio users
+ */
+export const listStudioUsers = async ( options?: Parameters<typeof customFetch>[1]): Promise<StudioUser[]> => {
+
+  return customFetch<StudioUser[]>(getListStudioUsersUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListStudioUsersQueryKey = () => {
+    return [
+    `/api/studio/users`
+    ] as const;
+    }
+
+
+export const getListStudioUsersQueryOptions = <TData = Awaited<ReturnType<typeof listStudioUsers>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listStudioUsers>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListStudioUsersQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listStudioUsers>>> = ({ signal }) => listStudioUsers({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listStudioUsers>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ListStudioUsersQueryResult = NonNullable<Awaited<ReturnType<typeof listStudioUsers>>>
+export type ListStudioUsersQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary List Studio users
+ */
+
+export function useListStudioUsers<TData = Awaited<ReturnType<typeof listStudioUsers>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listStudioUsers>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getListStudioUsersQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getInviteStudioUserUrl = () => {
+
+
+
+
+  return `/api/studio/users`
+}
+
+/**
+ * @summary Add a Studio user invitation
+ */
+export const inviteStudioUser = async (studioUserInput: StudioUserInput, options?: Parameters<typeof customFetch>[1]): Promise<StudioUser> => {
+
+  return customFetch<StudioUser>(getInviteStudioUserUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(studioUserInput)
+  }
+);}
+
+
+
+
+
+export const getInviteStudioUserMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof inviteStudioUser>>, TError,{data: BodyType<StudioUserInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof inviteStudioUser>>, TError,{data: BodyType<StudioUserInput>}, TContext> => {
+
+const mutationKey = ['inviteStudioUser'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof inviteStudioUser>>, {data: BodyType<StudioUserInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  inviteStudioUser(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type InviteStudioUserMutationResult = NonNullable<Awaited<ReturnType<typeof inviteStudioUser>>>
+    export type InviteStudioUserMutationBody = BodyType<StudioUserInput>
+    export type InviteStudioUserMutationError = ErrorType<unknown>
+
+    /**
+ * @summary Add a Studio user invitation
+ */
+export const useInviteStudioUser = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof inviteStudioUser>>, TError,{data: BodyType<StudioUserInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof inviteStudioUser>>,
+        TError,
+        {data: BodyType<StudioUserInput>},
+        TContext
+      > => {
+      return useMutation(getInviteStudioUserMutationOptions(options));
+    }
+
+export const getListModerationReportsUrl = () => {
+
+
+
+
+  return `/api/studio/moderation/reports`
+}
+
+/**
+ * @summary List moderation reports
+ */
+export const listModerationReports = async ( options?: Parameters<typeof customFetch>[1]): Promise<ModerationReport[]> => {
+
+  return customFetch<ModerationReport[]>(getListModerationReportsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListModerationReportsQueryKey = () => {
+    return [
+    `/api/studio/moderation/reports`
+    ] as const;
+    }
+
+
+export const getListModerationReportsQueryOptions = <TData = Awaited<ReturnType<typeof listModerationReports>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listModerationReports>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListModerationReportsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listModerationReports>>> = ({ signal }) => listModerationReports({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listModerationReports>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ListModerationReportsQueryResult = NonNullable<Awaited<ReturnType<typeof listModerationReports>>>
+export type ListModerationReportsQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary List moderation reports
+ */
+
+export function useListModerationReports<TData = Awaited<ReturnType<typeof listModerationReports>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listModerationReports>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getListModerationReportsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getUpdateModerationReportUrl = (id: string,) => {
+
+
+
+
+  return `/api/studio/moderation/reports/${id}`
+}
+
+/**
+ * @summary Resolve a moderation report
+ */
+export const updateModerationReport = async (id: string,
+    statusUpdateInput: StatusUpdateInput, options?: Parameters<typeof customFetch>[1]): Promise<ModerationReport> => {
+
+  return customFetch<ModerationReport>(getUpdateModerationReportUrl(id),
+  {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(statusUpdateInput)
+  }
+);}
+
+
+
+
+
+export const getUpdateModerationReportMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateModerationReport>>, TError,{id: string;data: BodyType<StatusUpdateInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateModerationReport>>, TError,{id: string;data: BodyType<StatusUpdateInput>}, TContext> => {
+
+const mutationKey = ['updateModerationReport'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateModerationReport>>, {id: string;data: BodyType<StatusUpdateInput>}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateModerationReport(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateModerationReportMutationResult = NonNullable<Awaited<ReturnType<typeof updateModerationReport>>>
+    export type UpdateModerationReportMutationBody = BodyType<StatusUpdateInput>
+    export type UpdateModerationReportMutationError = ErrorType<void>
+
+    /**
+ * @summary Resolve a moderation report
+ */
+export const useUpdateModerationReport = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateModerationReport>>, TError,{id: string;data: BodyType<StatusUpdateInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateModerationReport>>,
+        TError,
+        {id: string;data: BodyType<StatusUpdateInput>},
+        TContext
+      > => {
+      return useMutation(getUpdateModerationReportMutationOptions(options));
+    }
+
+export const getGetStudioAnalyticsUrl = () => {
+
+
+
+
+  return `/api/studio/analytics`
+}
+
+/**
+ * @summary Get Studio analytics
+ */
+export const getStudioAnalytics = async ( options?: Parameters<typeof customFetch>[1]): Promise<StudioAnalytics> => {
+
+  return customFetch<StudioAnalytics>(getGetStudioAnalyticsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetStudioAnalyticsQueryKey = () => {
+    return [
+    `/api/studio/analytics`
+    ] as const;
+    }
+
+
+export const getGetStudioAnalyticsQueryOptions = <TData = Awaited<ReturnType<typeof getStudioAnalytics>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getStudioAnalytics>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetStudioAnalyticsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getStudioAnalytics>>> = ({ signal }) => getStudioAnalytics({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getStudioAnalytics>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetStudioAnalyticsQueryResult = NonNullable<Awaited<ReturnType<typeof getStudioAnalytics>>>
+export type GetStudioAnalyticsQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary Get Studio analytics
+ */
+
+export function useGetStudioAnalytics<TData = Awaited<ReturnType<typeof getStudioAnalytics>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getStudioAnalytics>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetStudioAnalyticsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getGetStudioMonetizationUrl = () => {
+
+
+
+
+  return `/api/studio/monetization`
+}
+
+/**
+ * @summary Get Studio monetization data
+ */
+export const getStudioMonetization = async ( options?: Parameters<typeof customFetch>[1]): Promise<StudioMonetization> => {
+
+  return customFetch<StudioMonetization>(getGetStudioMonetizationUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetStudioMonetizationQueryKey = () => {
+    return [
+    `/api/studio/monetization`
+    ] as const;
+    }
+
+
+export const getGetStudioMonetizationQueryOptions = <TData = Awaited<ReturnType<typeof getStudioMonetization>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getStudioMonetization>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetStudioMonetizationQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getStudioMonetization>>> = ({ signal }) => getStudioMonetization({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getStudioMonetization>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetStudioMonetizationQueryResult = NonNullable<Awaited<ReturnType<typeof getStudioMonetization>>>
+export type GetStudioMonetizationQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary Get Studio monetization data
+ */
+
+export function useGetStudioMonetization<TData = Awaited<ReturnType<typeof getStudioMonetization>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getStudioMonetization>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetStudioMonetizationQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getGetStudioSettingsUrl = () => {
+
+
+
+
+  return `/api/studio/settings`
+}
+
+/**
+ * @summary Get Studio settings
+ */
+export const getStudioSettings = async ( options?: Parameters<typeof customFetch>[1]): Promise<StudioSettings> => {
+
+  return customFetch<StudioSettings>(getGetStudioSettingsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetStudioSettingsQueryKey = () => {
+    return [
+    `/api/studio/settings`
+    ] as const;
+    }
+
+
+export const getGetStudioSettingsQueryOptions = <TData = Awaited<ReturnType<typeof getStudioSettings>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getStudioSettings>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetStudioSettingsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getStudioSettings>>> = ({ signal }) => getStudioSettings({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getStudioSettings>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetStudioSettingsQueryResult = NonNullable<Awaited<ReturnType<typeof getStudioSettings>>>
+export type GetStudioSettingsQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary Get Studio settings
+ */
+
+export function useGetStudioSettings<TData = Awaited<ReturnType<typeof getStudioSettings>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getStudioSettings>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetStudioSettingsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getUpdateStudioSettingsUrl = () => {
+
+
+
+
+  return `/api/studio/settings`
+}
+
+/**
+ * @summary Update Studio settings
+ */
+export const updateStudioSettings = async (studioSettings: StudioSettings, options?: Parameters<typeof customFetch>[1]): Promise<StudioSettings> => {
+
+  return customFetch<StudioSettings>(getUpdateStudioSettingsUrl(),
+  {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(studioSettings)
+  }
+);}
+
+
+
+
+
+export const getUpdateStudioSettingsMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateStudioSettings>>, TError,{data: BodyType<StudioSettings>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateStudioSettings>>, TError,{data: BodyType<StudioSettings>}, TContext> => {
+
+const mutationKey = ['updateStudioSettings'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateStudioSettings>>, {data: BodyType<StudioSettings>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  updateStudioSettings(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateStudioSettingsMutationResult = NonNullable<Awaited<ReturnType<typeof updateStudioSettings>>>
+    export type UpdateStudioSettingsMutationBody = BodyType<StudioSettings>
+    export type UpdateStudioSettingsMutationError = ErrorType<unknown>
+
+    /**
+ * @summary Update Studio settings
+ */
+export const useUpdateStudioSettings = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateStudioSettings>>, TError,{data: BodyType<StudioSettings>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateStudioSettings>>,
+        TError,
+        {data: BodyType<StudioSettings>},
+        TContext
+      > => {
+      return useMutation(getUpdateStudioSettingsMutationOptions(options));
+    }
+
+export const getGetStudioLiveUrl = () => {
+
+
+
+
+  return `/api/studio/live`
+}
+
+/**
+ * @summary Get live control room state
+ */
+export const getStudioLive = async ( options?: Parameters<typeof customFetch>[1]): Promise<StudioLive> => {
+
+  return customFetch<StudioLive>(getGetStudioLiveUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetStudioLiveQueryKey = () => {
+    return [
+    `/api/studio/live`
+    ] as const;
+    }
+
+
+export const getGetStudioLiveQueryOptions = <TData = Awaited<ReturnType<typeof getStudioLive>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getStudioLive>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetStudioLiveQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getStudioLive>>> = ({ signal }) => getStudioLive({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getStudioLive>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetStudioLiveQueryResult = NonNullable<Awaited<ReturnType<typeof getStudioLive>>>
+export type GetStudioLiveQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary Get live control room state
+ */
+
+export function useGetStudioLive<TData = Awaited<ReturnType<typeof getStudioLive>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getStudioLive>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetStudioLiveQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getUpdateStudioLiveUrl = () => {
+
+
+
+
+  return `/api/studio/live`
+}
+
+/**
+ * @summary Update live state
+ */
+export const updateStudioLive = async (liveUpdateInput: LiveUpdateInput, options?: Parameters<typeof customFetch>[1]): Promise<StudioLive> => {
+
+  return customFetch<StudioLive>(getUpdateStudioLiveUrl(),
+  {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(liveUpdateInput)
+  }
+);}
+
+
+
+
+
+export const getUpdateStudioLiveMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateStudioLive>>, TError,{data: BodyType<LiveUpdateInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateStudioLive>>, TError,{data: BodyType<LiveUpdateInput>}, TContext> => {
+
+const mutationKey = ['updateStudioLive'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateStudioLive>>, {data: BodyType<LiveUpdateInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  updateStudioLive(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateStudioLiveMutationResult = NonNullable<Awaited<ReturnType<typeof updateStudioLive>>>
+    export type UpdateStudioLiveMutationBody = BodyType<LiveUpdateInput>
+    export type UpdateStudioLiveMutationError = ErrorType<unknown>
+
+    /**
+ * @summary Update live state
+ */
+export const useUpdateStudioLive = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateStudioLive>>, TError,{data: BodyType<LiveUpdateInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateStudioLive>>,
+        TError,
+        {data: BodyType<LiveUpdateInput>},
+        TContext
+      > => {
+      return useMutation(getUpdateStudioLiveMutationOptions(options));
     }
 

@@ -74,6 +74,153 @@ export interface CreateCommentInput {
   text: string;
 }
 
+export interface StudioArticleInput {
+  slug: string;
+  title: string;
+  excerpt: string;
+  /** @nullable */
+  content?: string | null;
+  category: string;
+  authorName: string;
+  authorAvatar: string;
+  publishedAt: string;
+  readTime: number;
+  imageUrl: string;
+  isBreaking: boolean;
+  isTrending: boolean;
+}
+
+export interface StudioVideoInput {
+  title: string;
+  description: string;
+  category: string;
+  duration: string;
+  thumbnailUrl: string;
+  publishedAt: string;
+  author: string;
+}
+
+export interface StudioShowInput {
+  title: string;
+  host: string;
+  schedule: string;
+  nextEpisode: string;
+  coverUrl: string;
+  subscribers: number;
+  isLive: boolean;
+}
+
+export interface StatusUpdateInput {
+  status: string;
+}
+
+export interface StudioComment {
+  id: string;
+  articleId: string;
+  articleTitle: string;
+  user: string;
+  /** @nullable */
+  avatar: string | null;
+  text: string;
+  time: string;
+  status: string;
+}
+
+export interface StudioUser {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  status: string;
+  joined: string;
+}
+
+export interface StudioUserInput {
+  name: string;
+  email: string;
+  role: string;
+}
+
+export interface ModerationReport {
+  id: string;
+  type: string;
+  subject: string;
+  reason: string;
+  reporter: string;
+  status: string;
+  createdAt: string;
+}
+
+export interface StudioAnalyticsPoint {
+  name: string;
+  visitors: number;
+  views: number;
+}
+
+export interface StudioTrafficSource {
+  label: string;
+  value: number;
+}
+
+export interface StudioAnalytics {
+  visitors: number;
+  views: number;
+  averageDuration: string;
+  activeCountries: number;
+  daily: StudioAnalyticsPoint[];
+  trafficSources: StudioTrafficSource[];
+  geography: StudioTrafficSource[];
+}
+
+export interface StudioPlan {
+  id: string;
+  name: string;
+  priceCents: number;
+  currency: string;
+  description: string;
+  features: string[];
+  isActive: boolean;
+}
+
+export interface StudioMonetization {
+  recurringRevenueCents: number;
+  premiumSubscribers: number;
+  conversionRate: number;
+  plans: StudioPlan[];
+}
+
+export interface StudioSettings {
+  siteName: string;
+  siteLanguage: string;
+  siteDescription: string;
+  editorialEmail: string;
+  dailyDigest: boolean;
+  moderationAlerts: boolean;
+  weeklyAnalytics: boolean;
+}
+
+export interface StudioLive {
+  isLive: boolean;
+  viewers: number;
+  currentShow?: Show;
+  upcoming: Show[];
+}
+
+export interface LiveUpdateInput {
+  isLive: boolean;
+  /** @nullable */
+  showId?: string | null;
+}
+
+export interface StudioSummary {
+  totalViews: number;
+  premiumSubscribers: number;
+  publishedArticles: number;
+  recurringRevenueCents: number;
+  daily: StudioAnalyticsPoint[];
+  topArticles: Article[];
+}
+
 export type ListCommentsParams = {
 articleId: string;
 };
